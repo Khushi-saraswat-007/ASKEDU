@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload PDF</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/buttons.css' %}">
+</head>
+<body class="theme-light">  <!-- or theme-dark -->
+  <div class="container">
+    <h1 class="main-heading">Upload PDF 📂</h1>
+
+    <div class="card">
+        <h2>📄 Upload a PDF File</h2>
+
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input class = 'btn-secondary center btn-small' type="file" name="pdf_file" accept=".pdf" required>
+            <button class = 'btn-success center btn-large' type="submit">Upload & Process</button>
+        </form>
+
+    </div>
+
+    {% if result %}
+    <hr>
+    <h3>📃 Extracted Preview (from PDF):</h3>
+    <p>{{ result.extracted_text }}</p>
+
+    <h3>📌 Summary</h3>
+    <p>{{ result.summary }}</p>
+
+    <h3>📒 Notes</h3>
+    <p>{{ result.notes }}</p>
+
+    <h3>❓ Important Questions</h3>
+    <div>{% for q in result.questions %}<p>{{ q }}</p>{% endfor %}</div>
+
+    <h3>🧠 MCQs</h3>
+    <div>{% for m in result.mcqs %}<p>{{ m }}</p>{% endfor %}</div>
+
+    <h3>📖 Paragraph-Based Questions</h3>
+    <div>{% for p in result.paragraph_questions %}<p>{{ p }}</p>{% endfor %}</div>
+
+    <h3>🔗 Learn More</h3>
+    <div>{% for l in result.links %}<p>{{ l }}</p>{% endfor %}</div>
+    {% endif %}
+
+
+    <div style="margin-top: 20px; text-align: center;">
+      <a href="{% url 'query_form' %}" class="btn">✨ Back to Dashboard ✨</a>
+    </div>
+  </div>
+</body>
+</html>

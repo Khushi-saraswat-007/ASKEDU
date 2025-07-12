@@ -1,0 +1,93 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  color: white;
+  text-align: center;
+}
+.container {
+  padding: 30px;
+  max-width: 900px;
+  margin: auto;
+}
+h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+.subtitle {
+  font-size: 1.1em;
+  margin-bottom: 30px;
+}
+input[type="text"] {
+  width: 80%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  font-size: 1em;
+}
+.format-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px 0;
+}
+.card {
+  width: 180px;
+  height: 130px;
+  border-radius: 15px;
+  font-size: 1.1em;
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.card small {
+  font-size: 0.75em;
+  margin-top: 5px;
+}
+.pink { background: linear-gradient(to right, #ff758c, #ff7eb3); }
+.blue { background: linear-gradient(to right, #43cea2, #185a9d); }
+.orange { background: linear-gradient(to right, #f857a6, #ff5858); }
+.green { background: linear-gradient(to right, #42e695, #3bb2b8); }
+.purple { background: linear-gradient(to right, #b721ff, #21d4fd); }
+.output {
+  background-color: rgba(0,0,0,0.3);
+  margin-top: 30px;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: left;
+}
+.output pre {
+  white-space: pre-wrap;
+  color: #ffe;
+  font-family: monospace;
+}
+.examples {
+  margin-top: 40px;
+}
+.example-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+.example-card {
+  padding: 20px;
+  border-radius: 15px;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+.tag {
+  font-size: 0.75em;
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  padding: 4px 10px;
+  border-radius: 8px;
+  display: inline-block;
+}

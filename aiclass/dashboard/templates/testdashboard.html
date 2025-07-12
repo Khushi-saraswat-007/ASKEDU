@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-white border-r border-gray-200 p-6 fixed top-0 left-0 h-screen overflow-y-auto z-10">
+    <div class="text-center mb-6">
+      <img src="/static/profile.png" class="w-20 h-20 mx-auto rounded-full border-2 border-green-500 shadow" alt="Profile" />
+      <h1 id="sidebarUsername" class="mt-2 font-semibold text-lg">Student</h1>
+      <p class="text-sm text-gray-500">Student</p>
+    </div>
+    <nav class="space-y-2 font-medium text-green-700">
+      <a href="#" onclick="showTab('main')" class="block py-2 px-4 rounded hover:bg-green-100">🏫 Dashboard</a>
+      <a href="#" onclick="showTab('ai')" class="block py-2 px-4 rounded hover:bg-green-100">🧠 AI Tools</a>
+      <a href="/profile" class="block py-2 px-4 rounded hover:bg-green-100">👤 Profile</a>
+      <a href="#" id="logoutLink" class="block py-2 px-4 rounded text-red-600 hover:bg-red-100">🚪 Logout</a>
+    </nav>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="ml-64 p-6 overflow-y-auto min-h-screen">
+    <h1 class="text-2xl font-semibold text-green-700 mb-6">Welcome, <span id="welcomeUsername">Student</span>! 👋</h1>
+
+    <!-- Tabs -->
+    <div class="mb-6 border-b border-gray-300">
+      <button onclick="showTab('main')" class="tab-btn px-4 py-2 text-green-600 font-semibold border-b-2 border-green-600">📚 Overview</button>
+      <button onclick="showTab('ai')" class="tab-btn px-4 py-2 text-gray-600 hover:text-green-600">🧠 AI Tools</button>
+    </div>
+
+    <!-- Main Tab -->
+    <div id="mainTab">
+      <!-- Classrooms -->
+      <div class="bg-green-50 p-5 rounded-xl border border-green-300 mb-6">
+        <h2 class="text-xl font-bold text-green-800 mb-4">🏫 Your Classrooms</h2>
+        {% if classrooms %}
+          <div class="space-y-3 max-h-56 overflow-y-auto pr-1">
+            {% for cls in classrooms %}
+              <div class="p-3 border rounded-md bg-white">
+                <p><strong>Name:</strong> {{ cls.name }}</p>
+                <p><strong>Code:</strong> {{ cls.code }}</p>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-gray-500">No classrooms joined yet.</p>
+        {% endif %}
+        <a href="{% url 'join_classroom' %}" class="inline-block mt-3 bg-green-600 text-white px-4 py-2 rounded-md">➕ Join a Classroom</a>
+      </div>
+
+      <!-- Announcements -->
+      <div class="bg-green-50 p-5 rounded-xl border border-green-300 mb-6">
+        <h2 class="text-xl font-bold text-green-800 mb-4">📢 Announcements</h2>
+        <div class="space-y-3 max-h-60 overflow-y-auto">
+          {% for ann in announcements %}
+            <div class="p-3 border rounded-md bg-white">
+              <p class="font-semibold">{{ ann.title }}</p>
+              <p class="text-sm">{{ ann.message }}</p>
+              <p class="text-xs text-gray-500">{{ ann.created_at|date:"d M Y, H:i" }}</p>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Live Classes -->
+      <div class="bg-white p-5 rounded-xl border shadow">
+        <h2 class="text-xl font-bold text-green-800 mb-4">🎥 Upcoming Live Classes</h2>
+        {% if meetings %}
+          <div class="space-y-4 max-h-60 overflow-y-auto pr-2">
+            {% for meeting in meetings %}
+              <div class="p-4 border rounded-xl bg-green-50">
+                <h3 class="text-lg font-semibold">{{ meeting.topic }}</h3>
+                <p><strong>Time:</strong> {{ meeting.start_time }}</p>
+                <p><strong>Classroom:</strong> {{ meeting.classroom.name }}</p>
+                <a href="{{ meeting.join_url }}" class="inline-block mt-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow" target="_blank">🔗 Join Now</a>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-gray-500">No upcoming live classes.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- AI Tools Tab -->
+    <div id="aiTab" class="hidden">
+      <div class="bg-white p-5 rounded-xl border shadow">
+        <h2 class="text-xl font-bold text-green-800 mb-4">🧠 AI Learning Tools</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-h-[650px] overflow-y-auto pr-2">
+          <a href="/query/" class="bg-green-50 p-6 rounded-xl shadow hover:bg-green-100 text-center text-green-800 font-medium text-lg">🔍 Multimodal Query Processor</a>
+          <a href="/visual/" class="bg-green-50 p-6 rounded-xl shadow hover:bg-green-100 text-center text-green-800 font-medium text-lg">🖼️ Visual Aid Generator</a>
+          <a href="/pin/" class="bg-green-50 p-6 rounded-xl shadow hover:bg-green-100 text-center text-green-800 font-medium text-lg">📌 Contextual Pinboard</a>
+          <a href="/storytelling_mode/" class="bg-green-50 p-6 rounded-xl shadow hover:bg-green-100 text-center text-green-800 font-medium text-lg">📖 Story Mode Learning</a>
+          <a href="/quiz" class="bg-green-50 p-6 rounded-xl shadow hover:bg-green-100 text-center text-green-800 font-medium text-lg">📉 Weakness Predictor</a>
+          <a href="/assistant" class="bg-green-50 p-6 rounded-xl shadow hover:bg-green-100 text-center text-green-800 font-medium text-lg">🧙 AI Programming Assistant</a>
+          <a href="/teaching_mode" class="bg-green-50 p-6 rounded-xl shadow hover:bg-green-100 text-center text-green-800 font-medium text-lg">🧑‍🏫 Teaching Mode</a>
+          <a href="/timeline_home" class="bg-green-50 p-6 rounded-xl shadow hover:bg-green-100 text-center text-green-800 font-medium text-lg">⏳ Time Travel Tutor</a>
+          <a href="/mentor_selector/" class="bg-green-50 p-6 rounded-xl shadow hover:bg-green-100 text-center text-green-800 font-medium text-lg">🧙 AI Mentor Selector</a>
+          <a href="/homework/" class="bg-green-50 p-6 rounded-xl shadow hover:bg-green-100 text-center text-green-800 font-medium text-lg">📝 Homework Helper & Tracker</a>
+          <a href="/studentrecording/" class="bg-green-50 p-6 rounded-xl shadow hover:bg-green-100 text-center text-green-800 font-medium text-lg">🎙️ AI-Powered Classroom Recorder</a>
+          <a href="/concept_remix/" class="bg-green-50 p-6 rounded-xl shadow hover:bg-green-100 text-center text-green-800 font-medium text-lg">🎛️ Concept Remix Studio</a>
+          <a href="/emotion-tracker/" class="bg-green-50 p-6 rounded-xl shadow hover:bg-green-100 text-center text-green-800 font-medium text-lg">😊 Attention Detector</a>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Tab Switching -->
+  <script>
+    function showTab(tab) {
+      document.getElementById('mainTab').classList.toggle('hidden', tab !== 'main');
+      document.getElementById('aiTab').classList.toggle('hidden', tab !== 'ai');
+
+      const buttons = document.querySelectorAll('.tab-btn');
+      buttons.forEach(btn => btn.classList.remove('border-green-600', 'text-green-600'));
+      if (tab === 'main') buttons[0].classList.add('border-green-600', 'text-green-600');
+      if (tab === 'ai') buttons[1].classList.add('border-green-600', 'text-green-600');
+    }
+    showTab('main');
+  </script>
+
+  <!-- Firebase Auth for Name + Logout -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBC1fBrv_5i4njn4m1hyxlm0NHiakXEDws",
+      authDomain: "aiassistant-9fd2a.firebaseapp.com",
+      projectId: "aiassistant-9fd2a",
+      storageBucket: "aiassistant-9fd2a.appspot.com",
+      messagingSenderId: "471558413017",
+      appId: "1:471558413017:web:956fa093d79c0a8fd27cc8"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth();
+    const db = getFirestore();
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "/";
+        return;
+      }
+
+      const docSnap = await getDoc(doc(db, "users", user.uid));
+      if (docSnap.exists()) {
+        const name = docSnap.data().name || "Student";
+        document.getElementById("sidebarUsername").textContent = name;
+        document.getElementById("welcomeUsername").textContent = name;
+      }
+    });
+
+    const logoutLink = document.getElementById("logoutLink");
+    if (logoutLink) {
+      logoutLink.addEventListener("click", async (e) => {
+        e.preventDefault();
+        await signOut(auth);
+        window.location.href = "/";
+      });
+    }
+  </script>
+</body>
+</html>

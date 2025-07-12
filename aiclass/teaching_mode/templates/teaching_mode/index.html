@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teaching Mode</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fdf8;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      font-size: 2.2rem;
+      color: #2d5a3d;
+    }
+
+    .header p {
+      color: #333;
+      margin-top: 8px;
+      font-size: 1rem;
+    }
+
+    .subjects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .subject-card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-align: center;
+      border: 1px solid #e8f5e8;
+    }
+
+    .subject-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 20px rgba(45, 90, 61, 0.15);
+    }
+
+    .subject-icon {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+    }
+
+    .subject-title {
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin-bottom: 8px;
+      color: #2d5a3d;
+    }
+
+    .subject-description {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.4;
+    }
+
+    .feedback-section {
+      display: none;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border: 1px solid #e8f5e8;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #2d5a3d;
+    }
+
+    .form-group select,
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #c3d9c7;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    .form-group select:focus,
+    .form-group input:focus {
+      outline: none;
+      border-color: #4a7c59;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 120px;
+      border-radius: 8px;
+      padding: 10px;
+      border: 1px solid #c3d9c7;
+      font-size: 1rem;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #4a7c59;
+    }
+
+    .btn {
+      background-color: #4a7c59;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      margin-top: 15px;
+      margin-right: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn-outline {
+      background-color: #fff;
+      border: 1px solid #4a7c59;
+      color: #4a7c59;
+    }
+
+    .btn:hover {
+      background-color: #3d6b4a;
+    }
+
+    .btn-outline:hover {
+      background-color: #f8fdf8;
+      border-color: #3d6b4a;
+      color: #3d6b4a;
+    }
+
+    .feedback-output {
+      margin-top: 20px;
+      background-color: #f0f8f0;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #e8f5e8;
+    }
+
+    .feedback-output h3 {
+      margin-top: 0;
+      color: #2d5a3d;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div style="text-align: left; margin-bottom: 20px;">
+  <a href="{% url 'studentdashboard' %}" style="background-color: #e4f4e4; color: #2d5a3d; padding: 10px 16px; border-radius: 8px; font-weight: 600; text-decoration: none; border: 1px solid #b2d8b2; display: inline-block;">
+    ⬅️ Back to Dashboard
+  </a>
+</div>
+
+    <div class="header">
+      <h1>🧠 Teaching Mode</h1>
+      <p>Choose a subject, pick any topic you'd like to explain, and receive personalized feedback.</p>
+    </div>
+
+    <div id="subject-section">
+      <h2 style="text-align:center;">Choose a Subject</h2>
+      <div class="subjects-grid">
+        <div class="subject-card" onclick="selectSubject('Science')">
+          <div class="subject-icon">🔬</div>
+          <div class="subject-title">Science</div>
+          <div class="subject-description">Biology, Chemistry, Physics, and Environmental Science topics</div>
+        </div>
+        
+        <div class="subject-card" onclick="selectSubject('Mathematics')">
+          <div class="subject-icon">🔢</div>
+          <div class="subject-title">Mathematics</div>
+          <div class="subject-description">Numbers, Algebra, Geometry, and Problem Solving</div>
+        </div>
+        
+        <div class="subject-card" onclick="selectSubject('History')">
+          <div class="subject-icon">📚</div>
+          <div class="subject-title">History</div>
+          <div class="subject-description">World History, Ancient Civilizations, and Historical Events</div>
+        </div>
+        
+        <div class="subject-card" onclick="selectSubject('Computer Science')">
+          <div class="subject-icon">💻</div>
+          <div class="subject-title">Computer Science</div>
+          <div class="subject-description">Programming, Algorithms, and Technology Concepts</div>
+        </div>
+        
+        <div class="subject-card" onclick="selectSubject('Social Studies')">
+          <div class="subject-icon">🌍</div>
+          <div class="subject-title">Social Studies</div>
+          <div class="subject-description">Geography, Government, Civics, and Society</div>
+        </div>
+        
+        <div class="subject-card" onclick="selectSubject('English')">
+          <div class="subject-icon">📖</div>
+          <div class="subject-title">English</div>
+          <div class="subject-description">Literature, Writing, Grammar, and Language Arts</div>
+        </div>
+        
+        <div class="subject-card" onclick="selectSubject('Business Studies')">
+          <div class="subject-icon">💼</div>
+          <div class="subject-title">Business Studies</div>
+          <div class="subject-description">Management, Marketing, Entrepreneurship, and Business Concepts</div>
+        </div>
+        
+        <div class="subject-card" onclick="selectSubject('Economics')">
+          <div class="subject-icon">📈</div>
+          <div class="subject-title">Economics</div>
+          <div class="subject-description">Microeconomics, Macroeconomics, Market Systems, and Economic Theory</div>
+        </div>
+        
+        <div class="subject-card" onclick="selectSubject('Accounting')">
+          <div class="subject-icon">📊</div>
+          <div class="subject-title">Accounting</div>
+          <div class="subject-description">Financial Accounting, Bookkeeping, and Financial Statements</div>
+        </div>
+        
+        <div class="subject-card" onclick="selectSubject('Psychology')">
+          <div class="subject-icon">🧠</div>
+          <div class="subject-title">Psychology</div>
+          <div class="subject-description">Human Behavior, Mental Processes, and Psychological Theories</div>
+        </div>
+        
+        <div class="subject-card" onclick="selectSubject('Commerce')">
+          <div class="subject-icon">🏪</div>
+          <div class="subject-title">Commerce</div>
+          <div class="subject-description">Trade, Banking, Finance, and Commercial Activities</div>
+        </div>
+        
+        <div class="subject-card" onclick="selectSubject('Philosophy')">
+          <div class="subject-icon">🤔</div>
+          <div class="subject-title">Philosophy</div>
+          <div class="subject-description">Ethics, Logic, Metaphysics, and Philosophical Thinking</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="feedback-section" class="feedback-section">
+      <h2>Subject: <span id="selected-subject">...</span></h2>
+      
+      <div class="form-group">
+        <label for="standard-select">Select Your Grade:</label>
+        <select id="standard-select">
+          <option>Grade 6</option>
+          <option>Grade 7</option>
+          <option selected>Grade 8</option>
+          <option>Grade 9</option>
+          <option>Grade 10</option>
+          <option>Grade 11</option>
+          <option>Grade 12</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="topic-input">What topic would you like to explain?</label>
+        <input type="text" id="topic-input" placeholder="e.g., Photosynthesis, Fractions, World War II, etc." />
+      </div>
+
+      <div class="form-group">
+        <label for="user-explanation">Your Explanation:</label>
+        <textarea id="user-explanation" placeholder="Explain the topic in your own words..."></textarea>
+      </div>
+      
+      <button class="btn-outline" onclick="startRecording()">🎙 Voice Record</button>
+      <button class="btn" onclick="getFeedback()">Get Feedback</button>
+
+      <div class="feedback-output" id="ai-feedback"></div>
+      <button class="btn-outline" onclick="goBack()">← Back to Subjects</button>
+    </div>
+  </div>
+
+  <script>
+  function selectSubject(subject) {
+    document.getElementById("selected-subject").innerText = subject;
+    document.getElementById("subject-section").style.display = "none";
+    document.getElementById("feedback-section").style.display = "block";
+    document.getElementById("topic-input").value = "";
+    document.getElementById("user-explanation").value = "";
+    document.getElementById("ai-feedback").innerHTML = "";
+  }
+
+  function goBack() {
+    document.getElementById("feedback-section").style.display = "none";
+    document.getElementById("subject-section").style.display = "block";
+  }
+
+  function getFeedback() {
+    const subject = document.getElementById("selected-subject").innerText;
+    const topic = document.getElementById("topic-input").value.trim();
+    const explanation = document.getElementById("user-explanation").value.trim();
+    const standard = document.getElementById("standard-select").value;
+
+    if (!topic) {
+      alert("Please enter a topic you'd like to explain!");
+      return;
+    }
+
+    if (!explanation) {
+      alert("Please provide your explanation!");
+      return;
+    }
+
+    document.getElementById("ai-feedback").innerHTML = "<em>Loading...</em>";
+
+    fetch("/evaluate/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+        topic: topic,
+        explanation: explanation, 
+        standard: standard,
+        subject: subject
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("ai-feedback").innerHTML = `
+        <h3>✅ Positive Feedback</h3>
+        ${data.positive}
+        <h3>🔍 Gaps in Understanding</h3>
+        ${data.gaps}
+      `;
+    })
+    .catch(error => {
+      document.getElementById("ai-feedback").innerHTML = "<em>Error getting feedback. Please try again.</em>";
+      console.error('Error:', error);
+    });
+  }
+
+  function startRecording() {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      alert('Speech recognition is not supported in this browser.');
+      return;
+    }
+
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    
+    recognition.start();
+    
+    recognition.onstart = function() {
+      document.querySelector('button[onclick="startRecording()"]').innerHTML = '🎙 Recording...';
+    };
+    
+    recognition.onresult = function(event) {
+      const transcript = event.results[0][0].transcript;
+      document.getElementById("user-explanation").value = transcript;
+      document.querySelector('button[onclick="startRecording()"]').innerHTML = '🎙 Voice Record';
+    };
+    
+    recognition.onerror = function(event) {
+      console.error('Speech recognition error:', event.error);
+      document.querySelector('button[onclick="startRecording()"]').innerHTML = '🎙 Voice Record';
+      alert('Speech recognition error. Please try again.');
+    };
+    
+    recognition.onend = function() {
+      document.querySelector('button[onclick="startRecording()"]').innerHTML = '🎙 Voice Record';
+    };
+  }
+</script>
+
+</body>
+</html>

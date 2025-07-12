@@ -1,0 +1,104 @@
+{% extends 'matchmaker/base.html' %}
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+
+<style>
+  body {
+    background-color: #e0f7e9 !important;  /* ✅ Main light green */
+  }
+
+  h2, h3 {
+    color: #0044cc;
+    margin-bottom: 15px;
+  }
+
+  .section-box {
+    background-color: #145a32;  /* ✅ Subsection dark green */
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+    color: #f1fff6;
+  }
+
+  li {
+    margin-bottom: 10px;
+    background-color: #1b5e20;
+    padding: 10px 15px;
+    border-radius: 6px;
+    color: #e0f7e9;
+  }
+
+  li a {
+    margin-left: 10px;
+    color: #90caf9;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  li a:hover {
+    text-decoration: underline;
+  }
+
+  small {
+    color: #c8e6c9;
+  }
+
+  /* Back to Home button */
+  .btn-home {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #145a32;
+    color: #90caf9;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: background-color 0.3s ease;
+  }
+
+  .btn-home:hover {
+    background-color: #0f4023;
+    color: #cce6ff;
+  }
+</style>
+
+<h2>👋 Welcome, {{ student.name }}</h2>
+
+<div class="section-box">
+  <h3>📢 Notifications</h3>
+  <ul>
+    {% for note in notifications %}
+      <li>{{ note.message }} <small>({{ note.timestamp|date:"H:i" }})</small></li>
+    {% empty %}
+      <li>No new notifications</li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="section-box">
+  <h3>🧑‍🤝‍🧑 Your Groups</h3>
+  <ul>
+    {% for group in groups %}
+      <li>{{ group.name }} – Session: {{ group.session_day }}
+        <a href="{% url 'group_chat' group.id student.id %}">Join Chat</a>
+      </li>
+    {% empty %}
+      <li>You are not in any groups yet.</li>
+    {% endfor %}
+  </ul>
+</div>
+
+<a href="{% url 'home' %}" class="btn-home">🏠 Back to Home</a>
+
+
+
+{% endblock %}

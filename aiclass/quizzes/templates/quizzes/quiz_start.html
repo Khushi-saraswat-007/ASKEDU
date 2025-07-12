@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>📝 Start Quiz | QuerySense</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-green-50 text-blue-900 font-sans min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-xl bg-green-100 shadow-xl rounded-2xl p-8 border border-green-300">
+
+    <!-- 🧠 Heading -->
+    <h2 class="text-3xl font-extrabold text-green-800 mb-2 text-center">📝 Start Your Quiz</h2>
+    <p class="text-center text-gray-700 mb-6">Select your preferences and let the quiz begin!</p>
+
+    <!-- 🚀 Quiz Form -->
+    <form method="post" action="{% url 'quiz' %}" class="space-y-5">
+      {% csrf_token %}
+
+      <!-- Subject Dropdown -->
+      <div>
+        <label class="block text-sm font-medium text-green-800 mb-1">📘 Select Subject:</label>
+        <select name="subject" id="subject-select" required class="w-full border border-green-300 p-2.5 rounded-lg shadow-sm" onchange="toggleCustomSubject(this)">
+          {% for sub in subjects %}
+            <option value="{{ sub }}">{{ sub }}</option>
+          {% endfor %}
+          <option value="Other">Other (Write Yourself)</option>
+        </select>
+      </div>
+
+      <!-- Custom Subject Input -->
+      <div id="custom-subject-div" class="hidden">
+        <label class="block text-sm font-medium text-green-800 mb-1">✏️ Enter Your Subject:</label>
+        <input type="text" name="custom_subject" id="custom_subject_input" class="w-full border border-green-300 p-2.5 rounded-lg shadow-sm" placeholder="Type your subject..." />
+      </div>
+
+      <!-- Topic -->
+      <div>
+        <label class="block text-sm font-medium text-green-800 mb-1">📚 Enter Topic:</label>
+        <input type="text" name="topic" required class="w-full border border-green-300 p-2.5 rounded-lg shadow-sm" placeholder="e.g., Algebra, Photosynthesis" />
+      </div>
+
+      <!-- Number of Questions -->
+      <div>
+        <label class="block text-sm font-medium text-green-800 mb-1">🔢 Number of Questions:</label>
+        <input type="number" name="num_questions" min="1" max="10" value="3" required class="w-full border border-green-300 p-2.5 rounded-lg shadow-sm" />
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center">
+        <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-full font-semibold shadow transition">
+          🚀 Generate Quiz
+        </button>
+      </div>
+    </form>
+
+    <!-- Error Handling -->
+    {% if error %}
+      <p class="mt-4 text-red-600 font-medium text-center">❌ {{ error }}</p>
+    {% endif %}
+
+    <!-- Back Link -->
+    <div class="text-center mt-6">
+      <a href="/quiz_dashboard" class="inline-block text-green-700 hover:underline font-medium">
+        ⬅ Back to Dashboard
+      </a>
+    </div>
+    <div class="text-center mt-6">
+      <a href="/studentdashboard" class="inline-block text-green-700 hover:underline font-medium">
+        ⬅ Back to Main Dashboard
+      </a>
+    </div>
+  </div>
+
+  <!-- 💡 JS for Subject Toggle -->
+  <script>
+    function toggleCustomSubject(select) {
+      const customDiv = document.getElementById('custom-subject-div');
+      const input = document.getElementById('custom_subject_input');
+      if (select.value === 'Other') {
+        customDiv.classList.remove('hidden');
+        input.setAttribute('required', 'required');
+      } else {
+        customDiv.classList.add('hidden');
+        input.removeAttribute('required');
+      }
+    }
+  </script>
+</body>
+</html>

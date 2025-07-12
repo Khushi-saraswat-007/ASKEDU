@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Class Recording</title>
+    <link rel="stylesheet" href="{% static 'classroom/css/upload.css' %}">
+    <style>
+        .student-checkbox-group {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 6px;
+            background: #f9f9f9;
+        }
+        .student-checkbox-group label {
+            display: block;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="upload-container">
+        <h2 class="upload-title">Upload a New Class Recording</h2>
+
+        <form method="POST" enctype="multipart/form-data" class="upload-form">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label class="form-label">Recording Title:</label>
+                <input type="text" name="title" class="form-input" required placeholder="Enter title">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Video File:</label>
+                <input type="file" name="video" accept="video/*" required class="form-input">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Select Classroom:</label>
+                <select name="classroom" class="form-input" required>
+                    <option value="">Choose Classroom</option>
+                    {% for c in classrooms %}
+                        <option value="{{ c.id }}">{{ c.name }} ({{ c.code }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+           
+
+            <div class="form-actions">
+                <button type="submit" class="upload-btn">Upload Recording</button>
+                <a href="{% url 'teacher_dashboard' %}" class="back-link">Back to Dashboard</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz Result | QuerySense</title>
+  <style>
+    body {
+      font-family: DejaVu Sans, sans-serif;
+      padding: 20px;
+      font-size: 13px;
+      background-color: #ecfdf5; /* light green background */
+      color: #1e3a8a; /* blue-800 */
+    }
+    h2 {
+      font-size: 22px;
+      color: #065f46; /* dark green */
+      margin-bottom: 10px;
+      border-bottom: 2px solid #bbf7d0; /* green-200 */
+      padding-bottom: 5px;
+    }
+    h3 {
+      font-size: 17px;
+      color: #064e3b; /* darker green */
+      margin-top: 25px;
+      margin-bottom: 10px;
+    }
+    .summary p {
+      margin: 6px 0;
+      color: #064e3b;
+    }
+    .question-block {
+      background-color: #d1fae5; /* green-100 */
+      padding: 10px;
+      border-left: 5px solid #059669; /* green-600 */
+      margin-bottom: 12px;
+      border-radius: 6px;
+    }
+    .question-title {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #1e293b; /* slate-800 */
+    }
+    .answer-correct {
+      color: #15803d; /* green-700 */
+      font-weight: bold;
+    }
+    .answer-wrong {
+      color: #b91c1c; /* red-700 */
+      font-weight: bold;
+    }
+    .explanation {
+      font-style: italic;
+      color: #334155; /* slate-700 */
+      margin-top: 5px;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #86efac; /* green-300 */
+      margin: 20px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📄 QuerySense - Quiz Summary</h2>
+
+  <div class="summary">
+    <p><strong>✅ Score:</strong> {{ result.score }} / {{ result.total }}</p>
+    <p><strong>🎯 Accuracy:</strong> {{ result.accuracy }}%</p>
+    <p><strong>⏱️ Time Taken:</strong> {{ result.time_taken }} seconds</p>
+    <p><strong>⭐ Rating:</strong> {{ result.rating }} / 10</p>
+  </div>
+
+  <hr />
+
+  <h3>🧾 Detailed Question Review</h3>
+
+  {% for q in questions %}
+    <div class="question-block">
+      <div class="question-title">Q{{ forloop.counter }}. {{ q.question }}</div>
+      <div>
+        Your Answer:
+        <span class="{% if q.selected == q.answer %}answer-correct{% else %}answer-wrong{% endif %}">
+          {{ q.selected|default:"Not answered" }}
+        </span>
+        |
+        Correct: <span class="answer-correct">{{ q.answer }}</span>
+      </div>
+      <div class="explanation">{{ q.explanation }}</div>
+    </div>
+  {% endfor %}
+
+</body>
+</html>

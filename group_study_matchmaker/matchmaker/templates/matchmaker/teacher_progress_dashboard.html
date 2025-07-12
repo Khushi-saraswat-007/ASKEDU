@@ -1,0 +1,89 @@
+{% extends 'matchmaker/base.html' %}
+{% block title %}📊 Student Progress Dashboard{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    background-color: #e0f7e9; /* Light main background */
+  }
+
+  h2, h3 {
+    color: #0044cc;
+    margin-bottom: 15px;
+  }
+
+  .progress-card {
+    background-color: #a5d6b5;  /* Darker green card */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    margin-bottom: 25px;
+  }
+
+  ul {
+    padding-left: 20px;
+  }
+
+  li {
+    margin-bottom: 10px;
+    font-size: 15px;
+    color: #000;
+    background-color: #f1fff6;
+    padding: 10px;
+    border-radius: 6px;
+  }
+
+  p {
+    color: #444;
+  }
+
+  strong {
+    color: #004d00;
+  }
+
+  /* Back to home button */
+  .btn-home {
+    background-color: #145a32;
+    color: #0044cc;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+  }
+
+  .btn-home:hover {
+    background-color: #0e3c20;
+    color: #90caf9;
+  }
+</style>
+
+<h2>📊 Progress Reports – {{ teacher.name }}</h2>
+
+{% for item in session_data %}
+  <div class="progress-card">
+    <h3>📅 Session: {{ item.session.start_time|date:"d M Y H:i" }} – Group: {{ item.group.name }}</h3>
+
+    {% if item.progress_list %}
+      <ul>
+        {% for progress in item.progress_list %}
+          <li>
+            <strong>{{ progress.student.name }}</strong><br>
+            Topics: {{ progress.topics }}<br>
+            Time: {{ progress.time_spent_minutes }} min | Questions: {{ progress.questions_solved }}<br>
+            Rating: {{ progress.self_rating }}/5<br>
+            Notes: {{ progress.notes|default:"(none)" }}<br>
+            Submitted on: {{ progress.submitted_at|date:"d M Y H:i" }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p style="color:gray;">No progress submitted yet.</p>
+    {% endif %}
+  </div>
+{% endfor %}
+
+<a href="{% url 'home' %}" class="btn-home">🏠 Back to Home</a>
+
+{% endblock %}

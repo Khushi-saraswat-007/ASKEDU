@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Notes</title>
+    <link rel="stylesheet" href="{% static 'classroom/css/view_notes.css' %}">
+</head>
+<body>
+    <div class="notes-container">
+        <div class="notes-header">
+            <h2 class="notes-title">Class Notes</h2>
+            <div class="recording-info">
+                📹 Recording: {{ recording.title }}
+            </div>
+        </div>
+
+        {% if notes %}
+            <div class="notes-content">
+                {{ notes|safe }}
+            </div>
+            
+            <div class="notes-footer">
+                <a href="{% url 'student_dashboard' %}" class="back-link">Back to Dashboard</a>
+                
+                <div class="notes-actions">
+                    <button class="action-btn print" onclick="window.print()">Print Notes</button>
+                    <a href="#" class="action-btn download" onclick="downloadNotes()">Download PDF</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <div class="empty-state-icon">📝</div>
+                <div class="empty-state-text">No notes generated yet</div>
+                <div class="empty-state-subtext">
+                    Notes haven't been created for this recording yet.<br>
+                    Click the button below to generate AI-powered notes from the video content.
+                </div>
+                <a href="{% url 'generate_notes' recording.id %}" class="generate-notes-btn">Generate Notes</a>
+            </div>
+            
+            <div class="notes-footer">
+                <a href="{% url 'student_dashboard' %}" class="back-link">Back to Dashboard</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function downloadNotes() {
+            // Simple PDF download implementation
+            // You can enhance this with a proper PDF generation library
+            const notesContent = document.querySelector('.notes-content');
+            if (notesContent) {
+                const printWindow = window.open('', '_blank');
+                printWindow.document.write(`
+                    <html>
+                        <head>
+                            <title>{{ recording.title }} - Notes</title>
+                            <style>
+                                body { font-family: Arial, sans-serif; margin: 2rem; line-height: 1.6; }
+                                h1, h2, h3 { color: #333; }
+                                .header { border-bottom: 2px solid #22c55e; padding-bottom: 1rem; margin-bottom: 2rem; }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="header">
+                                <h1>{{ recording.title }}</h1>
+                                <p>Generated on: ${new Date().toLocaleDateString()}</p>
+                            </div>
+                            ${notesContent.innerHTML}
+                        </body>
+                    </html>
+                `);
+                printWindow.document.close();
+                printWindow.print();
+            }
+        }
+    </script>
+</body>
+</html>

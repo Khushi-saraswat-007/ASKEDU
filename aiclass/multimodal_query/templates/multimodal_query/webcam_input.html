@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Webcam Input</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/buttons.css' %}">
+</head>
+<body class="theme-light">  <!-- or theme-dark -->
+  <div class="container">
+    <h1 class="main-heading">Webcam Input 📸</h1>
+
+    <div class="card">
+        <h2>📷 Webcam + 🎤 Voice Input</h2>
+
+        <video id="video" autoplay></video>
+        <canvas id="canvas" style="display:none;"></canvas>
+
+        <form id="webcamForm" method="POST" action="{% url 'webcam_input' %}">
+        {% csrf_token %}
+        <input type="hidden" name="image_data" id="image_data">
+        <input type="hidden" name="audio_data" id="audio_data">
+        <button type="button" class='btn-primary' onclick="startRecording()">🎙️ Start Recording</button>
+        <button type="button" class='btn-success' onclick="stopRecording()">🛑 Stop & Submit</button>
+        </form>
+        <p id="status">Status: Not Recording</p>
+
+    </div>
+
+{% if result %}
+<hr>
+<h3>🗣️ What You Said:</h3>
+<p>{{ result.user_voice }}</p>
+
+<h3>🧠 Gemini's Explanation:</h3>
+<p>{{ result.gemini_output }}</p>
+{% endif %}
+
+    <div style="margin-top: 20px; text-align: center;">
+      <a href="{% url 'query_form' %}" class="btn">✨ Back to Dashboard ✨</a>
+    </div>
+  </div>
+
+<script>
+window.addEventListener("DOMContentLoaded", () => {
+  const video = document.getElementById("video");
+  const canvas = document.getElementById("canvas");
+  let mediaRecorder;
+  let audioChunks = [];
+
+  navigator.mediaDevices.getUserMedia({ video: true, audio: true }).then(stream => {
+    video.srcObject = stream;
+
+    mediaRecorder = new MediaRecorder(stream);
+
+    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+
+    mediaRecorder.onstop = () => {
+      const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
+      const reader = new FileReader();
+
+      canvas.getContext("2d").drawImage(video, 0, 0, canvas.width = 400, canvas.height = 300);
+      const imageData = canvas.toDataURL("image/png");
+
+      reader.onloadend = () => {
+        document.getElementById("image_data").value = imageData;
+        document.getElementById("audio_data").value = reader.result.split(",")[1];
+        document.getElementById("webcamForm").submit();
+      };
+
+      reader.readAsDataURL(audioBlob);
+    };
+
+    // Global functions
+    window.startRecording = () => {
+      audioChunks = [];
+      mediaRecorder.start();
+      console.log("🎙️ Started recording...");
+      document.getElementById("status").innerText = "Status: 🎙️ Started recording...";
+
+    };
+
+    window.stopRecording = () => {
+      mediaRecorder.stop();
+      console.log("🛑 Stopped and submitting...");
+      document.getElementById('status').innerText = "Status: 🛑 Stopped and submitting...";
+    };
+  }).catch(err => {
+    alert("Could not access webcam/mic: " + err.message);
+    console.error(err);
+  });
+});
+</script>
+</body>
+</html>

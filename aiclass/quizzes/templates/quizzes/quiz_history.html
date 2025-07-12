@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>📜 Quiz History | QuerySense</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-green-50 text-blue-900 font-sans">
+
+  <div class="max-w-6xl mx-auto p-6">
+    <!-- 🧠 Header -->
+    <h1 class="text-4xl font-extrabold text-green-800 mb-2 text-center">📜 Quiz History</h1>
+    <p class="text-center text-gray-700 mb-6">Review all your past quiz attempts and ratings.</p>
+
+    {% if quizzes %}
+    <!-- 📚 Quiz History Table -->
+    <div class="overflow-x-auto rounded-lg shadow">
+      <table class="min-w-full table-auto border border-green-200 rounded-lg">
+        <thead class="bg-green-200 text-green-900 text-sm uppercase font-semibold">
+          <tr>
+            <th class="px-4 py-3 text-left">📘 Subject</th>
+            <th class="px-4 py-3 text-left">🧩 Topic</th>
+            <th class="px-4 py-3 text-left">🗓️ Date</th>
+            <th class="px-4 py-3 text-left">✅ Score</th>
+            <th class="px-4 py-3 text-left">⭐ Rating</th>
+            <th class="px-4 py-3 text-left">⏱️ Time Taken</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for quiz in quizzes %}
+          <tr class="{% cycle 'bg-green-100' 'bg-green-50' %} border-t border-green-300 text-gray-800">
+            <td class="px-4 py-3">{{ quiz.subject }}</td>
+            <td class="px-4 py-3">{{ quiz.topic }}</td>
+            <td class="px-4 py-3">{{ quiz.end_time|date:"M d, Y H:i" }}</td>
+            <td class="px-4 py-3">{{ quiz.score }}/{{ quiz.num_questions }}</td>
+            <td class="px-4 py-3">{{ quiz.rating }}/10</td>
+            <td class="px-4 py-3">{{ quiz.end_time|timeuntil:quiz.start_time }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <!-- 💤 No Quiz Message -->
+    <div class="text-center text-gray-700 mt-10 text-lg">
+      😴 You haven't attempted any quizzes yet.
+    </div>
+    {% endif %}
+
+    <!-- 🔙 Back to Dashboard -->
+    <div class="text-center mt-8">
+      <a href="/quiz_dashboard" class="inline-block bg-green-600 hover:bg-green-700 text-white py-2 px-6 rounded-full font-semibold transition">
+        ⬅ Back to Dashboard
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>

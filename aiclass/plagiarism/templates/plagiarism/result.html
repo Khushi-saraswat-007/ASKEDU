@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Results - Plagiarism Detector</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'plagiarism/css/style.css' %}">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <header class="text-center py-4 mb-4">
+                    <h1 class="display-5 fw-bold">
+                        <i class="fas fa-chart-line text-primary me-3"></i>
+                        Analysis Results
+                    </h1>
+                    <a href="{% url 'plagiarism' %}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Analyze New Content
+                    </a>
+                </header>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <!-- Plagiarism Score Overview -->
+                <div class="card shadow-lg mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title mb-0">
+                            <i class="fas fa-tachometer-alt me-2"></i>
+                            Plagiarism Score Overview
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="text-center">
+                                    <div class="score-circle 
+                                        {% if analysis.plagiarism_score <= 25 %}score-low
+                                        {% elif analysis.plagiarism_score <= 50 %}score-medium
+                                        {% elif analysis.plagiarism_score <= 75 %}score-high
+                                        {% else %}score-critical{% endif %}">
+                                        <span class="score-text">{{ analysis.plagiarism_score|floatformat:1 }}%</span>
+                                    </div>
+                                    <h4 class="mt-3">
+                                        Risk Level: 
+                                        <span class="badge 
+                                            {% if analysis.risk_level == 'Low' %}bg-success
+                                            {% elif analysis.risk_level == 'Medium' %}bg-warning
+                                            {% elif analysis.risk_level == 'High' %}bg-danger
+                                            {% else %}bg-dark{% endif %}">
+                                            {{ analysis.risk_level }}
+                                        </span>
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="score-interpretation">
+                                    <h5>Score Interpretation:</h5>
+                                    <ul class="list-unstyled">
+                                        <li><span class="text-success">■</span> 0-25%: Low risk - Original content</li>
+                                        <li><span class="text-warning">■</span> 26-50%: Medium risk - Some concerns</li>
+                                        <li><span class="text-danger">■</span> 51-75%: High risk - Significant issues</li>
+                                        <li><span class="text-dark">■</span> 76-100%: Critical - Likely plagiarized</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Details -->
+                <div class="row">
+                    <!-- Detected Issues -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-danger text-white">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-exclamation-triangle me-2"></i>
+                                    Detected Issues
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                {% if analysis.detected_issues %}
+                                    <ul class="list-group list-group-flush">
+                                        {% for issue in analysis.detected_issues %}
+                                            <li class="list-group-item d-flex align-items-start">
+                                                <i class="fas fa-exclamation-circle text-danger me-2 mt-1"></i>
+                                                <span>{{ issue }}</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p class="text-muted">No specific issues detected.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Improvement Suggestions -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100">
+                            <div class="card-header bg-success text-white">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-lightbulb me-2"></i>
+                                    Improvement Suggestions
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                {% if analysis.improvement_suggestions %}
+                                    <ul class="list-group list-group-flush">
+                                        {% for suggestion in analysis.improvement_suggestions %}
+                                            <li class="list-group-item d-flex align-items-start">
+                                                <i class="fas fa-arrow-right text-success me-2 mt-1"></i>
+                                                <span>{{ suggestion }}</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% else %}
+                                    <p class="text-muted">No specific suggestions available.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content Analysis Summary -->
+                <div class="row">
+                    <div class="col-12 mb-4">
+                        <div class="card">
+                            <div class="card-header bg-secondary text-white">
+                                <h5 class="card-title mb-0">
+                                    <i class="fas fa-analytics me-2"></i>
+                                    Analysis Summary
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="text-success">
+                                            <i class="fas fa-check-circle me-2"></i>
+                                            Strengths Found
+                                        </h6>
+                                        <p class="text-muted">
+                                            {% if analysis.original_sections and analysis.original_sections|length > 0 %}
+                                                {{ analysis.original_sections|length }} original section(s) identified in your content.
+                                            {% else %}
+                                                Content requires more original elements.
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h6 class="text-warning">
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                            Areas for Review
+                                        </h6>
+                                        <p class="text-muted">
+                                            {% if analysis.suspicious_sections and analysis.suspicious_sections|length > 0 %}
+                                                {{ analysis.suspicious_sections|length }} section(s) may need citation or rephrasing.
+                                            {% else %}
+                                                No suspicious patterns detected.
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Original Content -->
+                <div class="card mb-4">
+                    <div class="card-header bg-secondary text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-file-alt me-2"></i>
+                            Analyzed Content ({{ content_type|title }})
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="content-display">
+                            {% if content_type == 'code' %}
+                                <pre><code>{{ content }}</code></pre>
+                            {% else %}
+                                <div class="content-text">{{ content }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="text-center mb-4">
+                    <a href="{% url 'plagiarism' %}" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-plus me-2"></i>
+                        Analyze New Content
+                    </a>
+                    <button onclick="window.print()" class="btn btn-outline-secondary btn-lg">
+                        <i class="fas fa-print me-2"></i>
+                        Print Results
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'plagiarism/js/script.js' %}"></script>
+</body>
+</html>

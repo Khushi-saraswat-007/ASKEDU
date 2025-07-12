@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Pinned Topics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(to right, #ecfdf5, #f0fdf4);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    .card-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      box-shadow: 0 8px 32px rgba(34, 197, 94, 0.1);
+    }
+
+    .pin-item {
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(34, 197, 94, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .pin-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(34, 197, 94, 0.15);
+      border-color: rgba(34, 197, 94, 0.3);
+    }
+
+    .button-primary {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+    }
+
+    .button-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+    }
+
+    .button-danger {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    }
+
+    .tone-badge {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .explanation-preview {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .explanation-preview:hover {
+      transform: translateY(-1px);
+      border-color: rgba(34, 197, 94, 0.4);
+    }
+
+    .ai-response-box {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+      border: 1px solid rgba(34, 197, 94, 0.2);
+    }
+
+    .empty-state {
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      border: 2px dashed #cbd5e1;
+    }
+
+    .status-playing { color: #6366f1; font-weight: 600; }
+    .status-finished { color: #22c55e; font-weight: 600; }
+    .status-stopped { color: #ef4444; font-weight: 600; }
+
+    .chevron-icon { transition: transform 0.3s ease; }
+    .chevron-icon.rotated { transform: rotate(90deg); }
+  </style>
+</head>
+<body class="min-h-screen p-6">
+  <div class="max-w-4xl mx-auto">
+    <!-- Back Button -->
+    <div class="mb-6">
+      <a href="/studentdashboard/" class="inline-flex items-center gap-2 text-white text-sm font-medium px-4 py-2 rounded-lg button-primary">
+        ← Back to Dashboard
+      </a>
+    </div>
+
+    <div class="card-container p-8 rounded-2xl">
+      <!-- Header -->
+      <div class="flex items-center gap-3 mb-6">
+        <span class="text-xl">📋</span>
+        <h2 class="text-2xl font-bold text-gray-800">My Pinned Topics</h2>
+      </div>
+
+      <!-- Pins List -->
+      {% if pins %}
+        <div class="space-y-6">
+          {% for pin in pins %}
+            <div class="pin-item p-6 rounded-xl">
+              <!-- Header -->
+              <h3 class="text-lg font-semibold text-gray-800 mb-2">💭 {{ pin.topic_text }}</h3>
+              <div class="text-sm text-gray-600 mb-4">
+                {% if pin.class_name %}📚 <strong>{{ pin.class_name }}</strong>{% endif %} 
+                • 📅 {{ pin.timestamp|date:"M d, Y H:i" }}
+              </div>
+
+              {% if pin.assistant_response %}
+                <!-- Preview -->
+                <div class="explanation-preview p-4 rounded-xl mb-4" onclick="toggleExplanation('{{ pin.id }}')">
+                  <div class="flex justify-between items-center">
+                    <span class="font-medium text-gray-800 flex gap-2 items-center">🤖 AI Explanation <span class="tone-badge">{{ pin.selected_tone }}</span></span>
+                    <span id="chevron-{{ pin.id }}" class="chevron-icon">▶</span>
+                  </div>
+                  <p class="text-sm text-gray-600 mt-2">Click to toggle explanation</p>
+                </div>
+
+                <!-- Full Explanation -->
+                <div id="explanation-{{ pin.id }}" class="hidden">
+                  <div class="ai-response-box p-5 rounded-xl mb-4">
+                    <div class="flex items-center gap-2 mb-3">
+                      <span class="text-lg">🤖</span>
+                      <span class="font-semibold text-gray-800">AI Explanation</span>
+                      <span class="tone-badge">{{ pin.selected_tone }}</span>
+                    </div>
+                    <div id="ai-response-{{ pin.id }}" class="text-gray-700 leading-relaxed">
+                      <pre class="whitespace-pre-wrap font-inherit">{{ pin.assistant_response }}</pre>
+                    </div>
+                    <p id="read-aloud-status-{{ pin.id }}" class="text-sm mt-3"></p>
+                  </div>
+                </div>
+              {% else %}
+                <!-- No AI Explanation Yet -->
+                <div class="bg-yellow-50 p-4 border border-yellow-200 rounded-xl text-yellow-800 mb-4">
+                  ⏳ No explanation yet. Choose a tone and click below:
+                  <form method="post" action="{% url 'pinboard:explain_pin' pin.id %}" class="mt-3 flex flex-wrap gap-4">
+                    {% csrf_token %}
+                    <select name="tone" required class="px-3 py-2 rounded-lg text-sm border border-gray-300">
+                      <option value="chill">😎 Chill</option>
+                      <option value="strict">🧑‍🏫 Strict</option>
+                      <option value="cartoonie">🐤 Cartoonie</option>
+                    </select>
+                    <button type="submit" class="button-primary text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2">
+                      <span>🤖</span> Get Explanation
+                    </button>
+                  </form>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <!-- Empty state -->
+        <div class="empty-state p-12 rounded-2xl text-center">
+          <div class="text-6xl mb-4">📌</div>
+          <h3 class="text-xl font-semibold text-gray-600 mb-2">No pinned topics yet</h3>
+          <p class="text-gray-500 mb-6">Start pinning your doubts to get quick AI help or teacher input.</p>
+          <a href="{% url 'pinboard:pin_topic' %}" class="button-primary text-white px-6 py-3 rounded-xl font-medium inline-flex items-center gap-2">
+            <span>📌</span> Pin Your First Topic
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    function toggleExplanation(pinId) {
+      const expl = document.getElementById('explanation-' + pinId);
+      const chevron = document.getElementById('chevron-' + pinId);
+      if (expl.classList.contains('hidden')) {
+        expl.classList.remove('hidden');
+        chevron.textContent = '▼';
+      } else {
+        expl.classList.add('hidden');
+        chevron.textContent = '▶';
+      }
+    }
+  </script>
+</body>
+</html>

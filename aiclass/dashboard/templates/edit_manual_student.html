@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Manual Student</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-green-50 p-6 font-sans">
+  <div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
+    <h2 class="text-2xl font-bold text-green-700 mb-4">Edit Student</h2>
+    <form method="post" class="space-y-3">
+      {% csrf_token %}
+      <input type="text" name="name" value="{{ student.name }}" class="w-full border p-2 rounded" required />
+      <input type="email" name="email" value="{{ student.email }}" class="w-full border p-2 rounded" />
+      <input type="text" name="roll_number" value="{{ student.roll_number }}" class="w-full border p-2 rounded" />
+      <input type="text" name="course" value="{{ student.course }}" class="w-full border p-2 rounded" />
+      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Save Changes</button>
+      <a href="{% url 'manual_student_list' %}?classroom={{ student.classroom.id }}" class="ml-4 text-green-600 hover:underline">Cancel</a>
+    </form>
+  </div>
+</body>
+</html>

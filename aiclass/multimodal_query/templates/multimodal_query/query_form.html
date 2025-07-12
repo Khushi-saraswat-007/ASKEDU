@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Assistant Dashboard</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="theme-light">
+  <div class="container">
+    <h1 class="main-heading">✨ Welcome to QuerySense ✨</h1>
+    <div class="grid">
+      <div class="card">
+        <h2>Text Input ⌨️</h2>
+        <p>Paste your text notes or content to get summaries, questions, and resources.</p>
+        <p class="instructions">📌 Instruction: Copy & paste your content in the box.</p>
+        <a href="{% url 'text_input' %}" class="btn">Try Now</a>
+      </div>
+
+      <div class="card">
+        <h2>Audio Input 🎙️</h2>
+        <p>Upload audio and get its educational breakdown.</p>
+        <p class="instructions">🎤 Instruction: Record your voice.</p>
+        <a href="{% url 'audio_input' %}" class="btn">Try Now</a>
+      </div>
+
+      <div class="card">
+        <h2>Webcam 📸</h2>
+        <p>Show a diagram or speak to your webcam — get visual/audio explanations.</p>
+        <p class="instructions">📸 Instruction: Speak or point camera at graph/image.</p>
+        <a href="{% url 'webcam_input' %}" class="btn">Try Now</a>
+      </div>
+
+      <div class="card">
+        <h2>Image Upload 🤳</h2>
+        <p>Upload diagrams or handwritten notes and receive key insights.</p>
+        <p class="instructions">🖼️ Instruction: Upload any image or scanned content.</p>
+        <a href="{% url 'image_input' %}" class="btn">Try Now</a>
+      </div>
+
+      <div class="card">
+        <h2>PDF Upload 📂</h2>
+        <p>Upload a PDF (notes, textbook pages) to extract summaries and questions.</p>
+        <p class="instructions">📄 Instruction: Upload a readable PDF file.</p>
+        <a href="{% url 'pdf_input' %}" class="btn">Try Now</a>
+      </div>
+
+      <div class="card">
+        <h2>Record Audio 🔉</h2>
+        <p>Record Your Audio to get summaries and questions.</p>
+        <p class="instructions">🎥 Instruction: Upload an .wav audio file.</p>
+        <a href="{% url 'record_audio' %}" class="btn">Try Now</a>
+      </div>
+    </div>
+     <div style="margin-top: 20px; margin-left: 20px; text-align: center; margin-down: 10px;">
+      <a href="{% url 'studentdashboard' %}" class="btn">✨ Back to Dashboard ✨</a>
+    </div>
+  </div>
+</body>
+</html>

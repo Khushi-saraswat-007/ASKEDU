@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🧠 Quiz | QuerySense</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-green-50 text-blue-900 font-sans min-h-screen p-4">
+  <div class="max-w-4xl mx-auto bg-green-100 shadow-xl rounded-2xl p-8 border border-green-300">
+
+    <!-- Heading -->
+    <h1 class="text-3xl font-extrabold text-green-800 mb-2 text-center">🧠 Your Quiz</h1>
+    <p class="text-center text-gray-700 mb-6">Answer the following questions to test your knowledge!</p>
+
+    <!-- Quiz Form -->
+    <form method="post" action="{% url 'submit_quiz' %}" class="space-y-6">
+      {% csrf_token %}
+
+      {% for q in questions %}
+      <div class="bg-white border border-green-200 p-5 rounded-lg shadow-sm hover:shadow transition">
+        <p class="font-semibold text-lg text-blue-900 mb-2">Q{{ forloop.counter }}. {{ q.question }}</p>
+        <div class="space-y-2">
+          {% for key, val in q.options.items %}
+          <label class="block cursor-pointer">
+            <input type="radio" name="q{{ forloop.parentloop.counter0 }}" value="{{ key }}" required class="mr-2 accent-green-600">
+            <span class="text-blue-900 font-medium">{{ key }}. {{ val }}</span>
+          </label>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+
+      <!-- Submit Button -->
+      <div class="text-center">
+        <button type="submit" class="mt-6 bg-green-600 hover:bg-green-700 text-white px-6 py-2.5 rounded-full font-semibold shadow transition">
+          ✅ Submit Quiz
+        </button>
+      </div>
+    </form>
+
+    <!-- Timer -->
+    <div class="mt-8 text-center text-sm text-gray-700">
+      ⏳ <span class="font-medium">Time Remaining:</span>
+      <span id="timer" class="font-bold text-green-700">{{ time_limit }}</span> seconds
+    </div>
+  </div>
+
+  <!-- JS: Countdown Timer -->
+  <script>
+    let time = {{ time_limit }};
+    const timerDisplay = document.getElementById('timer');
+
+    const interval = setInterval(() => {
+      if (--time <= 0) {
+        clearInterval(interval);
+        alert("⏰ Time’s up! Submitting your quiz.");
+        document.forms[0].submit();
+      }
+      timerDisplay.textContent = time;
+    }, 1000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Historical Time Machine – Explore History{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<div class="bg-primary text-white py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <h1 class="display-4 fw-bold mb-3"><i class="fas fa-hourglass-half me-3"></i>Historical Time Machine</h1>
+        <p class="lead mb-4">Journey through time and explore … interactive timelines.</p>
+      </div>
+      <div class="col-lg-4 text-center">
+        <i class="fas fa-globe display-1 opacity-50"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Search -->
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow">
+        <div class="card-body p-4">
+          <form action="{% url 'search' %}" method="get" class="search-form">
+            {% csrf_token %}
+            <div class="input-group input-group-lg">
+              <span class="input-group-text"><i class="fas fa-search"></i></span>
+              <input type="text" class="form-control" name="q"
+                     placeholder="Search for historical events, periods, or timelines..."
+                     value="{{ query|default_if_none:'' }}" autocomplete="off">
+              <button class="btn btn-primary" type="submit"><i class="fas fa-search me-2"></i>Search History</button>
+            </div>
+          </form>
+
+          <!-- Suggestions -->
+          <div class="mt-3">
+            <small class="text-muted">Try searching for:</small>
+            <div class="mt-2">
+              {% for topic in suggestions %}
+                <a href="{% url 'search' %}?q={{ topic|urlencode }}" class="badge bg-secondary me-2 mb-1">
+                  {{ topic }}
+                </a>
+              {% endfor %}
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Error -->
+{% if error %}
+  <div class="container">
+    <div class="alert alert-danger" role="alert"><i class="fas fa-exclamation-triangle me-2"></i>{{ error }}</div>
+  </div>
+{% endif %}
+
+<!-- Search results -->
+{% if search_results is not None %}
+  <div class="container mb-5">
+    <h2 class="mb-4"><i class="fas fa-search me-2"></i>Search Results for&nbsp;"{{ query }}"
+      <small class="text-muted">({{ search_results|length }})</small></h2>
+
+    {% if search_results|length == 0 %}
+      <div class="text-center py-5">
+        <i class="fas fa-search display-1 text-muted mb-3"></i>
+        <h3 class="text-muted">No results found</h3>
+        <p class="text-muted">Try different keywords or browse our featured timelines below.</p>
+      </div>
+    {% else %}
+      <div class="row">
+        {% for item in search_results %}
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 timeline-card">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                  <span class="fs-2 me-3">{{ item.avatar }}</span>
+                  <div>
+                    <h5 class="card-title mb-1">{{ item.title }}</h5>
+                    <small class="text-muted">
+                      {% if item.period %}{{ item.period }}{% elif item.date %}{{ item.date }}{% endif %}
+                    </small>
+                  </div>
+                </div>
+                <p class="card-text">{{ item.description }}</p>
+                {% if item.location %}
+                  <p class="card-text"><small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>{{ item.location }}</small></p>
+                {% endif %}
+              </div>
+              <div class="card-footer">
+                {% if item.timeline_id %}
+                  <a href="{% url 'timeline_detail' item.timeline_id %}" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-eye me-1"></i>View Timeline
+                  </a>
+                {% else %}
+                  <a href="{% url 'timeline_detail' item.id %}" class="btn btn-outline-primary btn-sm">
+                    <i class="fas fa-timeline me-1"></i>Explore Timeline
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+
+<!-- Featured -->
+{% if featured_timelines %}
+  <div class="container mb-5">
+    <h2 class="mb-4"><i class="fas fa-star me-2"></i>
+      {% if search_results %}Explore More Timelines{% else %}Featured Historical Timelines{% endif %}
+    </h2>
+    <div class="row">
+      {% for timeline in featured_timelines %}
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="card h-100 timeline-card">
+            <div class="card-body">
+              <div class="d-flex align-items-center mb-3">
+                <span class="fs-2 me-3">{{ timeline.avatar }}</span>
+                <div>
+                  <h5 class="card-title mb-1">{{ timeline.title }}</h5>
+                  <small class="text-muted">{{ timeline.period }}</small>
+                </div>
+              </div>
+              <p class="card-text">{{ timeline.description }}</p>
+              <p class="card-text"><small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>{{ timeline.location }}</small></p>
+              <div class="mb-3"><span class="badge bg-info">{{ timeline.category }}</span></div>
+            </div>
+            <div class="card-footer">
+              <a href="{% url 'timeline_detail' timeline.id %}" class="btn btn-outline-primary">
+                <i class="fas fa-timeline me-2"></i>Explore Timeline
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+<!-- Getting Started -->
+{% if not query and not search_results %}
+  <div class="container mb-5">
+    <div class="row text-center">
+      {% for step in get_started_steps %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <i class="fas fa-{{ step.icon }} display-4 text-primary mb-3"></i>
+              <h5>{{ step.label }}</h5>
+              <p class="card-text">{{ step.text }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+    </div>
+  </div>
+{% endif %}
+{% endblock %}
+
+{% block extra_scripts %}
+  <script src="{% static 'js/search.js' %}"></script>
+{% endblock %}

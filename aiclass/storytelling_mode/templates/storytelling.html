@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Storytelling Mode</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white min-h-screen flex font-sans">
+
+  <!-- Sidebar -->
+  <aside class="w-64 bg-green-100 border-r border-green-300 p-6 flex flex-col space-y-4">
+    
+    <h2 class="text-xl font-bold text-green-700 mb-4">📚 Story Tools</h2>
+    
+    <a href="/storytelling_mode/" class="block px-4 py-2 rounded bg-green-200 text-green-800 hover:bg-green-300 transition">🌿 Generate Story</a>
+    <a href="/storytelling_mode/my-stories/" class="block px-4 py-2 rounded bg-green-200 text-green-800 hover:bg-green-300 transition">📖 My Stories</a>
+  <a href="{% url 'studentdashboard' %}" class="block px-4 py-2 rounded bg-green-300 text-green-900 font-semibold hover:bg-green-400 transition">
+    ⬅️ Back to Dashboard
+  </a>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 flex items-center justify-center px-4 py-10">
+    <div class="w-full max-w-2xl bg-white rounded-2xl shadow-lg p-10 border border-green-300">
+      <h1 class="text-3xl font-bold text-center text-green-700 mb-6">🌿 AI Storytelling Mode</h1>
+
+      <form id="storyForm" class="space-y-6">
+        <input type="text" id="topic" name="topic" required placeholder="Enter a topic (e.g. Photosynthesis)"
+              class="w-full text-lg p-4 rounded-lg border border-green-400 focus:outline-none focus:ring-2 focus:ring-green-500"/>
+
+        <select id="age" name="age" required class="w-full text-lg p-4 rounded-lg border border-green-400">
+          <option value="">Select age group</option>
+          <option value="4">Pre-school (4–5)</option>
+          <option value="7">Child (6–8)</option>
+          <option value="10">Pre-teen (9–11)</option>
+          <option value="13">Teen (12–14)</option>
+          <option value="16">Mid-teen (15–17)</option>
+          <option value="19">Young adult (18–20)</option>
+          <option value="22">Adult (21+)</option>
+        </select>
+
+        <select id="tone" name="tone" class="w-full text-lg p-4 rounded-lg border border-green-400">
+          <option value="">Select tone (optional)</option>
+          <option value="funny">Funny</option>
+          <option value="emotional">Emotional</option>
+          <option value="scientific">Scientific</option>
+          <option value="simple">Simple</option>
+          <option value="random">Surprise Me</option>
+        </select>
+
+        <button type="submit"
+                class="w-full text-lg bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition duration-200">
+          Generate Story ✨
+        </button>
+      </form>
+
+      <div id="loading" class="text-green-600 text-center mt-6 hidden">Generating your story...</div>
+
+      <div id="storyContainer" class="hidden mt-10 space-y-4">
+        <h2 class="text-2xl font-semibold text-green-700">🧠 Generated Story:</h2>
+        <div id="story" class="bg-green-50 p-5 rounded-lg border border-green-200 text-gray-800 whitespace-pre-wrap text-lg"></div>
+        <audio id="audio" controls class="w-full mt-4 rounded-lg hidden"></audio>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById("storyForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const topic = document.getElementById("topic").value.trim();
+      const age = document.getElementById("age").value;
+      const tone = document.getElementById("tone").value;
+      const output = document.getElementById("story");
+      const audio = document.getElementById("audio");
+
+      if (!topic || !age) return alert("Please fill out topic and age.");
+
+      document.getElementById("loading").classList.remove("hidden");
+      document.getElementById("storyContainer").classList.add("hidden");
+      output.textContent = "";
+      audio.classList.add("hidden");
+
+      try {
+        const response = await fetch("/storytelling_mode/generate-story-with-audio/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ topic, age, tone })
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          alert("Error: " + data.error);
+        } else {
+          output.textContent = data.story;
+          document.getElementById("storyContainer").classList.remove("hidden");
+
+          if (data.audio_url) {
+            audio.src = data.audio_url;
+            audio.classList.remove("hidden");
+          }
+        }
+      } catch (error) {
+        alert("Something went wrong while generating the story.");
+      } finally {
+        document.getElementById("loading").classList.add("hidden");
+      }
+    });
+  </script>
+
+</body>
+</html>

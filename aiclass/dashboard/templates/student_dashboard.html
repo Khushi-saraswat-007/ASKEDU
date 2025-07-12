@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Student Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in {
+      animation: fadeIn 1.2s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 min-h-screen fade-in">
+
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-xl p-6 rounded-r-3xl">
+      <div class="text-2xl font-bold text-blue-700 mb-6">🎓 Student Panel</div>
+      <div class="mb-6 text-center">
+        <img src="/static/profile.png" alt="Profile Pic" class="w-24 h-24 rounded-full mx-auto border-4 border-blue-500">
+<h1><span id="username">...</span></h1>
+        <p class="text-sm text-gray-500">Student</p>
+      </div>
+      <nav class="space-y-3">
+        <a href="#" class="block py-2 px-4 rounded-lg bg-blue-100 hover:bg-blue-300 transition">Dashboard</a>
+        <a href="#" class="block py-2 px-4 rounded-lg hover:bg-purple-200 transition">Profile</a>
+        <a href="#" class="block py-2 px-4 rounded-lg hover:bg-pink-200 transition">Classes</a>
+        <a href="#" class="block py-2 px-4 rounded-lg hover:bg-red-100 transition">Logout</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-10">
+      <h1 class="text-4xl font-bold text-purple-700 mb-8 animate-bounce">Welcome, user! 👋</h1>
+
+      <!-- Upcoming Class -->
+      <div class="bg-white p-6 rounded-xl shadow-lg mb-8 border-l-4 border-purple-500 transition hover:shadow-xl">
+        <h2 class="text-2xl font-semibold mb-2 text-blue-600">📅 Upcoming Class</h2>
+        <p class="text-gray-700"><strong>Subject:</strong> Math</p>
+        <p class="text-gray-700"><strong>Teacher:</strong> Mr. Sharma</p>
+        <p class="text-gray-700"><strong>Time:</strong> 10:00 AM, 25 June</p>
+        <a href="#" class="inline-block mt-4 bg-purple-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-purple-700 transition">Join Zoom</a>
+      </div>
+
+      <!-- Feature Cards -->
+      <h2 class="text-2xl font-bold text-blue-700 mb-4">🧠 AI Learning Tools</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        <!-- Feature Card Example (Repeat for each feature) -->
+        <a href="/feature/multimodal-query/" class="block">
+          <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+            <img src="/static/multimodal.jpg" alt="Real-Time Multimodal Query" class="w-full h-40 object-cover">
+            <div class="p-4">
+              <h3 class="text-lg font-semibold text-purple-700 mb-1">Real-Time Multimodal Query</h3>
+              <p class="text-sm text-gray-600">Ask with text, speech, or images — get instant help.</p>
+            </div>
+          </div>
+        </a>
+
+        <a href="/feature/visual-aid/" class="block">
+          <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+            <img src="/static/visuallaid.png" alt="Visual Aid Generator" class="w-full h-40 object-cover">
+            <div class="p-4">
+              <h3 class="text-lg font-semibold text-purple-700 mb-1">Visual Aid Generator</h3>
+              <p class="text-sm text-gray-600">Creates dynamic charts & flowcharts from your queries.</p>
+            </div>
+          </div>
+        </a>
+
+        <a href="/feature/contextual-pinboard/" class="block">
+          <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+            <img src="/static/pinboard.jpg" alt="Contextual Pinboard" class="w-full h-40 object-cover">
+            <div class="p-4">
+              <h3 class="text-lg font-semibold text-purple-700 mb-1">Contextual Pinboard</h3>
+              <p class="text-sm text-gray-600">Pin confusing topics for the assistant to revisit later.</p>
+            </div>
+          </div>
+        </a>
+
+        <a href="/feature/story-mode/" class="block">
+          <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+            <img src="/static/story telling.jpeg" alt="Story Mode" class="w-full h-40 object-cover">
+            <div class="p-4">
+              <h3 class="text-lg font-semibold text-purple-700 mb-1">Story Mode Learning</h3>
+              <p class="text-sm text-gray-600">Turn topics into stories to make them fun & memorable.</p>
+            </div>
+          </div>
+        </a>
+
+        <a href="/feature/weakness-predictor/" class="block">
+          <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+            <img src="/static/weakness predictor.jpg" alt="Weakness Predictor" class="w-full h-40 object-cover">
+            <div class="p-4">
+              <h3 class="text-lg font-semibold text-purple-700 mb-1">Weakness Predictor</h3>
+              <p class="text-sm text-gray-600">AI finds weak topics even before your exams.</p>
+            </div>
+          </div>
+        </a>
+
+        <a href="/feature/whiteboard-explainer/" class="block">
+          <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+            <img src="/static/whiteboard.png" alt="Whiteboard Explainer" class="w-full h-40 object-cover">
+            <div class="p-4">
+              <h3 class="text-lg font-semibold text-purple-700 mb-1">AI Whiteboard Explainer</h3>
+              <p class="text-sm text-gray-600">Converts whiteboard content into notes instantly.</p>
+            </div>
+          </div>
+        </a>
+
+        <!-- Continue for remaining 11 features... -->
+        <!-- Add href like /feature/code-explainer/, /feature/mentor-selector/, etc. -->
+        <!-- Replace image src with your real static paths -->
+        <a href="/feature/code-explanation/" class="block">
+  <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+    <img src="/static/code explainer.jpeg" alt="Code Explanation Assistant" class="w-full h-40 object-cover">
+    <div class="p-4">
+      <h3 class="text-lg font-semibold text-purple-700 mb-1">Code Explanation Assistant</h3>
+      <p class="text-sm text-gray-600">Paste code and get clear, instant AI explanations.</p>
+    </div>
+  </div>
+</a>
+
+<a href="/feature/emotion-detection/" class="block">
+  <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+    <img src="/static/face detection.jpeg" alt="Emotion Detection" class="w-full h-40 object-cover">
+    <div class="p-4">
+      <h3 class="text-lg font-semibold text-purple-700 mb-1">Emotion & Engagement Detection</h3>
+      <p class="text-sm text-gray-600">Detects confusion/boredom via face — adjusts teaching.</p>
+    </div>
+  </div>
+</a>
+
+<a href="/feature/teaching-mode/" class="block">
+  <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+    <img src="/static/images/teach.jpg" alt="Teaching Mode" class="w-full h-40 object-cover">
+    <div class="p-4">
+      <h3 class="text-lg font-semibold text-purple-700 mb-1">Teaching Mode</h3>
+      <p class="text-sm text-gray-600">Learn by explaining — AI guides you like a student-teacher.</p>
+    </div>
+  </div>
+</a>
+
+<a href="/feature/study-matchmaker/" class="block">
+  <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+    <img src="/static/group study.jpg" alt="Group Study Matchmaker" class="w-full h-40 object-cover">
+    <div class="p-4">
+      <h3 class="text-lg font-semibold text-purple-700 mb-1">Group Study Matchmaker</h3>
+      <p class="text-sm text-gray-600">Find ideal peer study partners with shared goals.</p>
+    </div>
+  </div>
+</a>
+
+<a href="/feature/time-travel-tutor/" class="block">
+  <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+    <img src="/static/images/history.jpg" alt="Time Travel Tutor" class="w-full h-40 object-cover">
+    <div class="p-4">
+      <h3 class="text-lg font-semibold text-purple-700 mb-1">Time Travel Tutor</h3>
+      <p class="text-sm text-gray-600">Learn topics from historical figures like Newton or Socrates.</p>
+    </div>
+  </div>
+</a>
+
+<a href="/feature/mentor-selector/" class="block">
+  <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+    <img src="/static/ai mentor persona.jpg" alt="Mentor Selector" class="w-full h-40 object-cover">
+    <div class="p-4">
+      <h3 class="text-lg font-semibold text-purple-700 mb-1">AI Mentor Persona Selector</h3>
+      <p class="text-sm text-gray-600">Learn with a chill friend, strict prof, or anime senpai.</p>
+    </div>
+  </div>
+</a>
+
+<a href="/feature/screen-analysis/" class="block">
+  <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+    <img src="/static/images/screen.jpg" alt="Screen Activity Analysis" class="w-full h-40 object-cover">
+    <div class="p-4">
+      <h3 class="text-lg font-semibold text-purple-700 mb-1">Screen Activity Analysis</h3>
+      <p class="text-sm text-gray-600">Detect distractions or multitasking respectfully.</p>
+    </div>
+  </div>
+</a>
+
+<a href="/feature/curriculum-map/" class="block">
+  <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+    <img src="/static/images/curriculum.jpg" alt="Curriculum Mapping" class="w-full h-40 object-cover">
+    <div class="p-4">
+      <h3 class="text-lg font-semibold text-purple-700 mb-1">Curriculum Auto-Mapping</h3>
+      <p class="text-sm text-gray-600">Track your progress vs. syllabus with smart mapping.</p>
+    </div>
+  </div>
+</a>
+
+<a href="/feature/homework-tracker/" class="block">
+  <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+    <img src="/static/homework.jpeg" alt="Homework Helper" class="w-full h-40 object-cover">
+    <div class="p-4">
+      <h3 class="text-lg font-semibold text-purple-700 mb-1">Homework Helper & Tracker</h3>
+      <p class="text-sm text-gray-600">Manage deadlines, get hints, and stay on top of tasks.</p>
+    </div>
+  </div>
+</a>
+
+<a href="/feature/classroom-recorder/" class="block">
+  <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+    <img src="/static/classroom recorder.jpg" alt="Classroom Recorder" class="w-full h-40 object-cover">
+    <div class="p-4">
+      <h3 class="text-lg font-semibold text-purple-700 mb-1">AI-Powered Classroom Recorder</h3>
+      <p class="text-sm text-gray-600">Auto-generates notes, quizzes, and summaries from live class.</p>
+    </div>
+  </div>
+</a>
+
+<a href="/feature/concept-remix/" class="block">
+  <div class="bg-white rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 overflow-hidden">
+    <img src="/static/images/remix.jpg" alt="Concept Remix Studio" class="w-full h-40 object-cover">
+    <div class="p-4">
+      <h3 class="text-lg font-semibold text-purple-700 mb-1">Concept Remix Studio</h3>
+      <p class="text-sm text-gray-600">Turn topics into songs, memes, comics & more — fun learning!</p>
+    </div>
+  </div>
+</a>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBC1fBrv_5i4njn4m1hyxlm0NHiakXEDws",
+  authDomain: "aiassistant-9fd2a.firebaseapp.com",
+  projectId: "aiassistant-9fd2a",
+  storageBucket: "aiassistant-9fd2a.firebasestorage.app",
+  messagingSenderId: "471558413017",
+  appId: "1:471558413017:web:956fa093d79c0a8fd27cc8",
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = "/";
+      return;
+    }
+
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      alert("User profile not found.");
+      window.location.href = "/";
+      return;
+    }
+
+    const userData = docSnap.data();
+    const role = userData.role;
+
+    // ✅ Strict role-based access
+    const expectedRole = window.location.pathname.includes("student") ? "student" : "teacher";
+    if (role !== expectedRole) {
+      alert("Access denied.");
+      window.location.href = "/";
+      return;
+    }
+
+    // ✅ Set name in dashboard
+    document.getElementById("username").textContent = userData.name;
+  });
+</script>
+
+
+        
+      </div>
+    </main>
+  </div>
+</body>
+</html>

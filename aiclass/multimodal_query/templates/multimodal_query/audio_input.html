@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Audio Input</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/buttons.css' %}">
+</head>
+<body class="theme-light">  <!-- or theme-dark -->
+  <div class="container">
+    <h1 class="main-heading">Audio Input 🎙️</h1>
+
+    <div class="card">
+      <h2>Upload Audio File</h2>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" name="audio_file" accept="audio/*" required>
+        <button class = 'btn-success center' type="submit">Submit</button>
+      </form>
+    </div>
+
+    {% if result %}
+      <h3>Transcribed Text:</h3>
+      <p>{{ result.transcribed_text }}</p>
+
+      <h3>Summary</h3>
+      <p>{{ result.summary }}</p>
+
+      <h3>Important Questions</h3>
+      <p>{% for q in result.questions %}<p>{{ q }}</p>{% endfor %}</p>
+
+      <h3>MCQs</h3>
+      <p>{% for m in result.mcqs %}<p>{{ m }}</p>{% endfor %}</p>
+
+      <h3>Paragraph-Based Questions</h3>
+      <p>{% for p in result.paragraph_questions %}<p>{{ p }}</p>{% endfor %}</p>
+
+      <h3>More to Learn</h3>
+      <ul>{% for l in result.links %}<p>{{ l }}</p>{% endfor %}</ul>
+    {% endif %}
+<div style="margin-top: 20px; text-align: center;">
+      <a href="{% url 'query_form' %}" class="btn">✨ Back to Dashboard ✨</a>
+    </div>
+  </div>
+</body>
+</html>

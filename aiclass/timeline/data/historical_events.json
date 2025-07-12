@@ -1,0 +1,572 @@
+{
+  "timelines": [
+    {
+      "id": "french-revolution",
+      "title": "French Revolution",
+      "description": "A period of far-reaching social and political upheaval in France from 1789 to 1799",
+      "period": "1789-1799",
+      "image": "https://via.placeholder.com/300x200/6c757d/ffffff?text=French+Revolution",
+      "category": "Political Revolution",
+      "location": "France",
+      "coordinates": {
+        "lat": 46.2276,
+        "lng": 2.2137
+      },
+      "avatar": "👑",
+      "color": "#dc3545"
+    },
+    {
+      "id": "space-race",
+      "title": "Space Race",
+      "description": "20th-century competition between the Soviet Union and United States to achieve superior spaceflight capability",
+      "period": "1955-1975",
+      "image": "https://via.placeholder.com/300x200/6c757d/ffffff?text=Space+Race",
+      "category": "Scientific Achievement",
+      "location": "Global",
+      "coordinates": {
+        "lat": 28.3922,
+        "lng": -80.6077
+      },
+      "avatar": "🚀",
+      "color": "#0d6efd"
+    },
+    {
+      "id": "industrial-revolution",
+      "title": "Industrial Revolution",
+      "description": "The transition from hand production methods to machines and chemical manufacturing processes",
+      "period": "1760-1840",
+      "image": "https://via.placeholder.com/300x200/6c757d/ffffff?text=Industrial+Revolution",
+      "category": "Economic Transformation",
+      "location": "Britain",
+      "coordinates": {
+        "lat": 55.3781,
+        "lng": -3.436
+      },
+      "avatar": "⚙️",
+      "color": "#6f42c1"
+    },
+    {
+      "id": "world-war-ii",
+      "title": "World War II",
+      "description": "A global war that lasted from 1939 to 1945, involving most of the world's nations",
+      "period": "1939-1945",
+      "image": "https://via.placeholder.com/300x200/6c757d/ffffff?text=World+War+II",
+      "category": "Global Conflict",
+      "location": "Global",
+      "coordinates": {
+        "lat": 0,
+        "lng": 0
+      },
+      "avatar": "🌍",
+      "color": "#fd7e14"
+    },
+    {
+      "id": "renaissance",
+      "title": "Renaissance",
+      "description": "A period of cultural, artistic, political and economic rebirth following the Middle Ages",
+      "period": "1300-1600",
+      "image": "https://via.placeholder.com/300x200/6c757d/ffffff?text=Renaissance",
+      "category": "Cultural Movement",
+      "location": "Italy",
+      "coordinates": {
+        "lat": 41.8719,
+        "lng": 12.5674
+      },
+      "avatar": "🎨",
+      "color": "#20c997"
+    },
+    {
+      "id": "american-revolution",
+      "title": "American Revolution",
+      "description": "Political upheaval in which thirteen American colonies rejected British rule",
+      "period": "1765-1783",
+      "image": "https://via.placeholder.com/300x200/6c757d/ffffff?text=American+Revolution",
+      "category": "Political Revolution",
+      "location": "North America",
+      "coordinates": {
+        "lat": 39.8283,
+        "lng": -98.5795
+      },
+      "avatar": "🗽",
+      "color": "#198754"
+    },
+    {
+      "id": "020f93de-497f-48ee-88d5-7f7d261cd096",
+      "title": "Cold War",
+      "description": "The geopolitical rivalry between the United States and the Soviet Union and their respective allies from 1947 to 1991.",
+      "period": "1947–1991",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/ColdWarMap.svg/1280px-ColdWarMap.svg.png",
+      "category": "politics",
+      "location": "Global",
+      "coordinates": {
+        "lat": 0.0,
+        "lng": 0.0
+      },
+      "avatar": "🌍",
+      "color": "#DC143C"
+    },
+    {
+      "id": "1445ffa9-c449-4290-a9c6-de17b4196a47",
+      "title": "World War I",
+      "description": "A global war centered in Europe, lasting from 1914 to 1918.",
+      "period": "1914–1918",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/World_War_I_Map.png/800px-World_War_I_Map.png",
+      "category": "war",
+      "location": "Europe",
+      "coordinates": {
+        "lat": 50.0,
+        "lng": 10.0
+      },
+      "avatar": "🌍",
+      "color": "#A52A2A"
+    },
+    {
+      "id": "4d49f431-f7b4-4b53-9055-b614f7f298ee",
+      "title": "Russian Revolution",
+      "description": "The overthrow of the Tsarist autocracy and the rise of the Bolsheviks.",
+      "period": "1917–1923",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/October_Revolution.jpg/1280px-October_Revolution.jpg",
+      "category": "politics",
+      "location": "Russia",
+      "coordinates": {
+        "lat": 60.0,
+        "lng": 100.0
+      },
+      "avatar": "🇷🇺",
+      "color": "#CC0000"
+    }
+  ],
+  "events": [
+    {
+      "id": "storming-bastille",
+      "timeline_id": "french-revolution",
+      "title": "Storming of the Bastille",
+      "description": "Revolutionary insurgents stormed and seized control of the medieval fortress, prison, and armory known as the Bastille",
+      "year": 1789,
+      "date": "July 14, 1789",
+      "location": "Paris, France",
+      "coordinates": {
+        "lat": 48.8534,
+        "lng": 2.3684
+      },
+      "significance": "Marked the beginning of the French Revolution",
+      "avatar": "🏰"
+    },
+    {
+      "id": "reign-of-terror",
+      "timeline_id": "french-revolution",
+      "title": "Reign of Terror",
+      "description": "A period of state-sanctioned violence and mass executions during the French Revolution",
+      "year": 1793,
+      "date": "September 1793 - July 1794",
+      "location": "France",
+      "coordinates": {
+        "lat": 46.2276,
+        "lng": 2.2137
+      },
+      "significance": "Radical phase of the revolution with widespread executions",
+      "avatar": "⚔️"
+    },
+    {
+      "id": "sputnik-launch",
+      "timeline_id": "space-race",
+      "title": "Sputnik 1 Launch",
+      "description": "The first artificial Earth satellite launched by the Soviet Union",
+      "year": 1957,
+      "date": "October 4, 1957",
+      "location": "Baikonur Cosmodrome, Kazakhstan",
+      "coordinates": {
+        "lat": 45.92,
+        "lng": 63.3428
+      },
+      "significance": "Started the Space Age and intensified the Cold War space competition",
+      "avatar": "🛰️"
+    },
+    {
+      "id": "moon-landing",
+      "timeline_id": "space-race",
+      "title": "Apollo 11 Moon Landing",
+      "description": "First crewed lunar landing mission with Neil Armstrong and Buzz Aldrin",
+      "year": 1969,
+      "date": "July 20, 1969",
+      "location": "Moon",
+      "coordinates": {
+        "lat": 0.6875,
+        "lng": 23.4333
+      },
+      "significance": "First humans to walk on the Moon, achieving JFK's goal",
+      "avatar": "🌙"
+    },
+    {
+      "id": "steam-engine",
+      "timeline_id": "industrial-revolution",
+      "title": "Watt Steam Engine",
+      "description": "James Watt's improved steam engine design revolutionized industry",
+      "year": 1769,
+      "date": "1769",
+      "location": "Scotland",
+      "coordinates": {
+        "lat": 56.4907,
+        "lng": -4.2026
+      },
+      "significance": "Powered the Industrial Revolution and transformed manufacturing",
+      "avatar": "💀"
+    },
+    {
+      "id": "pearl-harbor",
+      "timeline_id": "world-war-ii",
+      "title": "Attack on Pearl Harbor",
+      "description": "Surprise military strike by Imperial Japanese Navy against the United States",
+      "year": 1941,
+      "date": "December 7, 1941",
+      "location": "Pearl Harbor, Hawaii",
+      "coordinates": {
+        "lat": 21.3632,
+        "lng": -157.9518
+      },
+      "significance": "Led to United States entry into World War II",
+      "avatar": "💥"
+    },
+    {
+      "id": "d-day",
+      "timeline_id": "world-war-ii",
+      "title": "D-Day Normandy Landings",
+      "description": "Allied invasion of Nazi-occupied Western Europe during World War II",
+      "year": 1944,
+      "date": "June 6, 1944",
+      "location": "Normandy, France",
+      "coordinates": {
+        "lat": 49.3412,
+        "lng": -0.5394
+      },
+      "significance": "Opened Western Front and led to liberation of Western Europe",
+      "avatar": "🏖️"
+    },
+    {
+      "id": "mona-lisa",
+      "timeline_id": "renaissance",
+      "title": "Mona Lisa Painted",
+      "description": "Leonardo da Vinci painted his masterpiece portrait",
+      "year": 1503,
+      "date": "1503-1506",
+      "location": "Florence, Italy",
+      "coordinates": {
+        "lat": 43.7696,
+        "lng": 11.2558
+      },
+      "significance": "Epitome of Renaissance art and technique",
+      "avatar": "🖼️"
+    },
+    {
+      "id": "declaration-independence",
+      "timeline_id": "american-revolution",
+      "title": "Declaration of Independence",
+      "description": "Thirteen American colonies declared independence from British rule",
+      "year": 1776,
+      "date": "July 4, 1776",
+      "location": "Philadelphia, Pennsylvania",
+      "coordinates": {
+        "lat": 39.9526,
+        "lng": -75.1652
+      },
+      "significance": "Formal statement of American independence and democratic principles",
+      "avatar": "📜"
+    },
+    {
+      "timeline_id": "020f93de-497f-48ee-88d5-7f7d261cd096",
+      "year": "1947",
+      "title": "Truman Doctrine",
+      "description": "US President Truman announces a policy of providing economic and military aid to countries threatened by communism.",
+      "location": "Global",
+      "significance": "",
+      "avatar": "🌍",
+      "coordinates": {
+        "lat": 0.0,
+        "lng": 0.0
+      },
+      "date": "1947",
+      "id": "7c05ae80-6006-40da-a745-ffee01441b8e"
+    },
+    {
+      "timeline_id": "020f93de-497f-48ee-88d5-7f7d261cd096",
+      "year": "1949",
+      "title": "Formation of NATO",
+      "description": "The North Atlantic Treaty Organization is formed, a military alliance of Western nations.",
+      "location": "Global",
+      "significance": "",
+      "avatar": "🌍",
+      "coordinates": {
+        "lat": 0.0,
+        "lng": 0.0
+      },
+      "date": "1949",
+      "id": "dfaee6b6-9a8c-4c1f-9616-4094bfb3055b"
+    },
+    {
+      "timeline_id": "020f93de-497f-48ee-88d5-7f7d261cd096",
+      "year": "1949",
+      "title": "Soviet Atomic Bomb",
+      "description": "The Soviet Union successfully tests its first atomic bomb, escalating the arms race.",
+      "location": "Global",
+      "significance": "",
+      "avatar": "🌍",
+      "coordinates": {
+        "lat": 0.0,
+        "lng": 0.0
+      },
+      "date": "1949",
+      "id": "7c5f5daa-1ae3-4695-951a-fbda532b43ee"
+    },
+    {
+      "timeline_id": "020f93de-497f-48ee-88d5-7f7d261cd096",
+      "year": "1950",
+      "title": "Korean War",
+      "description": "The Korean War begins, a proxy war between the US-led United Nations forces and communist North Korea.",
+      "location": "Global",
+      "significance": "",
+      "avatar": "🌍",
+      "coordinates": {
+        "lat": 0.0,
+        "lng": 0.0
+      },
+      "date": "1950",
+      "id": "043c2575-f0a3-42a6-96c2-523361c420b8"
+    },
+    {
+      "timeline_id": "020f93de-497f-48ee-88d5-7f7d261cd096",
+      "year": "1957",
+      "title": "Sputnik Launch",
+      "description": "The Soviet Union launches Sputnik 1, the first artificial satellite, marking a significant advancement in Soviet space technology.",
+      "location": "Global",
+      "significance": "",
+      "avatar": "🌍",
+      "coordinates": {
+        "lat": 0.0,
+        "lng": 0.0
+      },
+      "date": "1957",
+      "id": "4f79317f-e00f-4658-b22c-48aeeac4a875"
+    },
+    {
+      "timeline_id": "020f93de-497f-48ee-88d5-7f7d261cd096",
+      "year": "1962",
+      "title": "Cuban Missile Crisis",
+      "description": "The Cuban Missile Crisis brings the world to the brink of nuclear war.",
+      "location": "Global",
+      "significance": "",
+      "avatar": "🌍",
+      "coordinates": {
+        "lat": 0.0,
+        "lng": 0.0
+      },
+      "date": "1962",
+      "id": "6b0bdcba-8b25-4a1f-aeb4-e7666f2f3d02"
+    },
+    {
+      "timeline_id": "020f93de-497f-48ee-88d5-7f7d261cd096",
+      "year": "1969",
+      "title": "Apollo 11 Moon Landing",
+      "description": "The United States lands the first humans on the Moon, a major victory in the Space Race.",
+      "location": "Global",
+      "significance": "",
+      "avatar": "🌍",
+      "coordinates": {
+        "lat": 0.0,
+        "lng": 0.0
+      },
+      "date": "1969",
+      "id": "74d9b11b-70ed-4441-874a-15fcd9f5e0e1"
+    },
+    {
+      "timeline_id": "020f93de-497f-48ee-88d5-7f7d261cd096",
+      "year": "1985",
+      "title": "Gorbachev's Reforms",
+      "description": "Mikhail Gorbachev initiates political and economic reforms (Perestroika and Glasnost) in the Soviet Union.",
+      "location": "Global",
+      "significance": "",
+      "avatar": "🌍",
+      "coordinates": {
+        "lat": 0.0,
+        "lng": 0.0
+      },
+      "date": "1985",
+      "id": "ce6a0ada-a49c-4b33-a9c8-500545ceb326"
+    },
+    {
+      "timeline_id": "020f93de-497f-48ee-88d5-7f7d261cd096",
+      "year": "1989",
+      "title": "Fall of the Berlin Wall",
+      "description": "The Berlin Wall falls, symbolizing the end of the Cold War in Europe.",
+      "location": "Global",
+      "significance": "",
+      "avatar": "🌍",
+      "coordinates": {
+        "lat": 0.0,
+        "lng": 0.0
+      },
+      "date": "1989",
+      "id": "52dbe901-7ba0-4a25-abb3-b11e90b0e1d7"
+    },
+    {
+      "timeline_id": "020f93de-497f-48ee-88d5-7f7d261cd096",
+      "year": "1991",
+      "title": "Dissolution of the Soviet Union",
+      "description": "The Soviet Union collapses, officially ending the Cold War.",
+      "location": "Global",
+      "significance": "",
+      "avatar": "🌍",
+      "coordinates": {
+        "lat": 0.0,
+        "lng": 0.0
+      },
+      "date": "1991",
+      "id": "dcdb2f7b-7aef-430a-9fe9-eb96b9f9d31f"
+    },
+    {
+      "timeline_id": "1445ffa9-c449-4290-a9c6-de17b4196a47",
+      "year": "1914",
+      "title": "Assassination of Archduke Franz Ferdinand",
+      "description": "The assassination of Archduke Franz Ferdinand of Austria-Hungary triggered a chain of events leading to war.",
+      "location": "Europe",
+      "significance": "",
+      "avatar": "🌍",
+      "coordinates": {
+        "lat": 50.0,
+        "lng": 10.0
+      },
+      "date": "1914",
+      "id": "fc1effba-6663-4817-a478-a4e19b259af0"
+    },
+    {
+      "timeline_id": "1445ffa9-c449-4290-a9c6-de17b4196a47",
+      "year": "1914",
+      "title": "Outbreak of War",
+      "description": "Austria-Hungary declares war on Serbia, and other European powers become involved, leading to a large-scale conflict.",
+      "location": "Europe",
+      "significance": "",
+      "avatar": "🌍",
+      "coordinates": {
+        "lat": 50.0,
+        "lng": 10.0
+      },
+      "date": "1914",
+      "id": "67b48e2d-5e76-44fb-bb68-a875ec2d625d"
+    },
+    {
+      "timeline_id": "1445ffa9-c449-4290-a9c6-de17b4196a47",
+      "year": "1915",
+      "title": "Italy joins the Allied Powers",
+      "description": "Italy joins the Allied forces against the Central Powers.",
+      "location": "Europe",
+      "significance": "",
+      "avatar": "🌍",
+      "coordinates": {
+        "lat": 50.0,
+        "lng": 10.0
+      },
+      "date": "1915",
+      "id": "28dc328c-a21b-42c2-978a-8c64fd694e44"
+    },
+    {
+      "timeline_id": "1445ffa9-c449-4290-a9c6-de17b4196a47",
+      "year": "1917",
+      "title": "United States enters the war",
+      "description": "The United States declares war on Germany, significantly impacting the balance of power.",
+      "location": "Europe",
+      "significance": "",
+      "avatar": "🌍",
+      "coordinates": {
+        "lat": 50.0,
+        "lng": 10.0
+      },
+      "date": "1917",
+      "id": "4cfb88df-9a81-4c40-ade5-aa7bcfb54e76"
+    },
+    {
+      "timeline_id": "1445ffa9-c449-4290-a9c6-de17b4196a47",
+      "year": "1918",
+      "title": "Armistice signed",
+      "description": "An armistice is signed, ending the fighting on the Western Front.",
+      "location": "Europe",
+      "significance": "",
+      "avatar": "🌍",
+      "coordinates": {
+        "lat": 50.0,
+        "lng": 10.0
+      },
+      "date": "1918",
+      "id": "ea7eb31a-f8ce-42e4-9b6a-bc7f343fa8c2"
+    },
+    {
+      "timeline_id": "1445ffa9-c449-4290-a9c6-de17b4196a47",
+      "year": "1919",
+      "title": "Treaty of Versailles",
+      "description": "The Treaty of Versailles formally ends the war and imposes harsh terms on Germany.",
+      "location": "Europe",
+      "significance": "",
+      "avatar": "🌍",
+      "coordinates": {
+        "lat": 50.0,
+        "lng": 10.0
+      },
+      "date": "1919",
+      "id": "655eb654-b4a1-49f0-87b7-7c713985eb93"
+    },
+    {
+      "timeline_id": "4d49f431-f7b4-4b53-9055-b614f7f298ee",
+      "year": "1917",
+      "title": "February Revolution",
+      "description": "Overthrow of the Tsar Nicholas II and the establishment of a Provisional Government.",
+      "location": "Russia",
+      "significance": "",
+      "avatar": "🇷🇺",
+      "coordinates": {
+        "lat": 60.0,
+        "lng": 100.0
+      },
+      "date": "1917"
+    },
+    {
+      "timeline_id": "4d49f431-f7b4-4b53-9055-b614f7f298ee",
+      "year": "1917",
+      "title": "October Revolution",
+      "description": "The Bolsheviks, led by Vladimir Lenin, seized power from the Provisional Government.",
+      "location": "Russia",
+      "significance": "",
+      "avatar": "🇷🇺",
+      "coordinates": {
+        "lat": 60.0,
+        "lng": 100.0
+      },
+      "date": "1917"
+    },
+    {
+      "timeline_id": "4d49f431-f7b4-4b53-9055-b614f7f298ee",
+      "year": "1918-1922",
+      "title": "Russian Civil War",
+      "description": "A bloody conflict between the Bolsheviks (Reds) and their opponents (Whites).",
+      "location": "Russia",
+      "significance": "",
+      "avatar": "🇷🇺",
+      "coordinates": {
+        "lat": 60.0,
+        "lng": 100.0
+      },
+      "date": "1918-1922"
+    },
+    {
+      "timeline_id": "4d49f431-f7b4-4b53-9055-b614f7f298ee",
+      "year": "1922",
+      "title": "Formation of the USSR",
+      "description": "The creation of the Union of Soviet Socialist Republics.",
+      "location": "Russia",
+      "significance": "",
+      "avatar": "🇷🇺",
+      "coordinates": {
+        "lat": 60.0,
+        "lng": 100.0
+      },
+      "date": "1922"
+    }
+  ]
+}

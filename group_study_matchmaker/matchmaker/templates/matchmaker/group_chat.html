@@ -1,0 +1,206 @@
+{% extends 'matchmaker/base.html' %}
+{% block title %}Group Chat{% endblock %}
+{% block content %}
+
+<style>
+  body {
+    background-color: #d4f8e8;
+  }
+
+  h2 {
+    color: #0044cc;
+    margin-bottom: 15px;
+  }
+
+  #timer {
+    font-weight: bold;
+    color: #d32f2f;
+    margin-bottom: 15px;
+  }
+
+  #chat-box {
+    height: 300px;
+    overflow-y: auto;
+    background-color: #145a32;
+    color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid #0e3e22;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+
+  #chat-box p {
+    margin: 6px 0;
+  }
+
+  .chat-you {
+    color: #9ff59f;
+  }
+
+  .chat-other {
+    color: #ffffff;
+  }
+
+  form#chat-form {
+    margin-top: 20px;
+    background-color: #145a32;
+    padding: 15px;
+    border-radius: 8px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  form input[type="text"],
+  form input[type="file"] {
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 14px;
+    background-color: #f0fff0;
+    color: #000;
+  }
+
+  form button {
+    background-color: #004d00;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+
+  form button:hover {
+    background-color: #003700;
+  }
+
+  a {
+    color: #1e90ff;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  audio {
+    margin-top: 5px;
+    background-color: #f5f5f5;
+  }
+
+  img {
+    max-width: 200px;
+    display: block;
+    margin-top: 5px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .home-button {
+    margin-top: 25px;
+    display: inline-block;
+    background-color: #004d00;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .home-button:hover {
+    background-color: #003700;
+  }
+</style>
+
+<h2>🧑‍🤝‍🧑 Group Chat ({{ group.session_day }}) – You are: {{ student.name }}</h2>
+
+<div id="timer"></div>
+
+<div id="chat-box">
+  {% for msg in messages %}
+    <div style="margin-bottom: 10px;">
+      {% if msg.sender.id == student.id %}
+        <p class="chat-you"><strong>You:</strong> {{ msg.message_text }}</p>
+      {% else %}
+        <p class="chat-other"><strong>{{ msg.sender.name }}:</strong> {{ msg.message_text }}</p>
+      {% endif %}
+
+      {% if msg.image %}
+        <img src="{{ msg.image.url }}">
+      {% endif %}
+
+      {% if msg.voice %}
+        <audio controls>
+          <source src="{{ msg.voice.url }}" type="audio/mpeg">
+          Your browser does not support audio playback.
+        </audio>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>
+
+<form id="chat-form" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <input type="hidden" name="group_id" value="{{ group.id }}">
+  <input type="hidden" name="student_id" value="{{ student.id }}">
+  <input type="text" id="message" name="message" placeholder="Type a message 😊" required>
+  <input type="file" name="image" accept="image/*">
+  <input type="file" name="voice" accept="audio/*">
+  <button type="submit">Send</button>
+</form>
+
+{% if session.end_time < now %}
+  <p style="margin-top: 15px;">
+    <a href="{% url 'submit_progress' session.id student.id %}">📋 Submit Study Progress</a>
+  </p>
+{% endif %}
+
+<a href="/" class="home-button">🏠 Return to Home</a>
+<a href="{% url 'student_dashboard' student.id %}" class="home-button">📋 Return to Student Dashboard</a>
+
+
+<script>
+  const endTime = new Date("{{ session.end_time|date:'c' }}").getTime();
+  const timerEl = document.getElementById("timer");
+
+  setInterval(() => {
+    const now = new Date().getTime();
+    const diff = endTime - now;
+    if (diff > 0) {
+      const minutes = Math.floor(diff / 60000);
+      const seconds = Math.floor((diff % 60000) / 1000);
+      timerEl.innerHTML = `⏳ Time left: ${minutes}m ${seconds}s`;
+    } else {
+      timerEl.innerHTML = "⏰ Session Ended";
+      document.getElementById("chat-form").style.display = "none";
+    }
+  }, 1000);
+
+  const chatForm = document.getElementById("chat-form");
+  chatForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const formData = new FormData(chatForm);
+
+    fetch("{% url 'send_message' %}", {
+      method: "POST",
+      headers: { 'X-CSRFToken': formData.get('csrfmiddlewaretoken') },
+      body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+      location.reload();
+    })
+    .catch(err => {
+      console.error("Error sending message:", err);
+      alert("Failed to send message.");
+    });
+  });
+
+  const chatBox = document.getElementById("chat-box");
+  chatBox.scrollTop = chatBox.scrollHeight;
+</script>
+
+{% endblock %}

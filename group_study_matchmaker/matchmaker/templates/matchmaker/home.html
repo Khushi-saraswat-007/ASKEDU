@@ -1,0 +1,55 @@
+{% extends 'matchmaker/base.html' %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    background-color: #e0f7e9; /* ✅ Light green main background */
+    color: #000;
+  }
+
+  h2, h3 {
+    color: #0044cc; /* Blue headings */
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  .quick-links {
+    background-color: #145a32; /* Dark green sub-section */
+    padding: 20px;
+    border-radius: 10px;
+    width: fit-content;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+
+  .quick-links li {
+    color: #fff;
+    font-size: 16px;
+    margin: 10px 0;
+  }
+
+  .quick-links a {
+    color: #9ff59f;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  .quick-links a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<h2>👋 Welcome to Group Study Matchmaker!</h2>
+<p>This platform forms collaborative student groups based on strengths and weaknesses, encourages peer learning, and tracks progress for teachers.</p>
+
+<h3>🔗 Quick Links:</h3>
+<ul class="quick-links">
+  <li><a href="/matchmaker/teacher-dashboard/">Go to Teacher Dashboard</a></li>
+  <li><a href="/matchmaker/student-dashboard/1/">Go to Student Dashboard</a></li> <!-- Replace 1 with dynamic student ID if needed -->
+</ul>
+{% endblock %}

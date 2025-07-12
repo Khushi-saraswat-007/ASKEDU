@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Student Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<!-- (Head section remains unchanged) -->
+<body class="bg-gray-100 h-screen flex font-sans overflow-hidden">
+  <!-- Sidebar (unchanged) -->
+  <aside class="w-64 bg-white border-r border-gray-200 p-6 flex flex-col justify-between h-full">
+    <div>
+      <!-- Profile Section -->
+      <div class="text-center mb-6">
+        <div class="relative w-20 h-20 mx-auto mb-2">
+          <img id="profilePic" src="/default-avatar.png" alt="Profile Picture" class="w-20 h-20 rounded-full object-cover border-2 border-white shadow">
+          <input type="file" id="uploadPic" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" title="Upload Profile Picture" />
+        </div>
+        <h1><span class="username">...</span></h1>
+        <p class="text-sm text-gray-500">Student</p>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="space-y-2 text-green-700 font-medium">
+        <a href="/studentdashboard" class="flex items-center gap-2 px-4 py-2 rounded hover:bg-green-100">🏠 Home</a>
+        <a href="/studentdashboard" class="flex items-center gap-2 px-4 py-2 rounded hover:bg-green-100">📊 Dashboard</a>
+        <a href="/calendar" class="flex items-center gap-2 px-4 py-2 rounded hover:bg-green-100">🗓️ Calendar</a>
+        <a href="/profile" class="flex items-center gap-2 px-4 py-2 rounded hover:bg-green-100">Profile</a>
+        <a href="#" onclick="logout()" class="flex items-center gap-2 px-4 py-2 rounded hover:bg-red-100 text-red-600">🚪 Logout</a>
+      </nav>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+<main class="flex-1 p-8 overflow-y-auto">
+  <h1 class="text-2xl font-semibold text-green-700 mb-6">Welcome, <span class="username">...</span>! 👋</h1>
+
+  <!-- 🔑 Join a Classroom Block -->
+  <div class="bg-white p-5 rounded-xl shadow border border-green-300 mb-6">
+    <h2 class="text-xl font-bold text-green-700 mb-2">🔑 Join a New Classroom</h2>
+    <p class="text-gray-600 mb-3">Have a classroom code? Join it below:</p>
+    <a href="{% url 'join_classroom' %}" class="inline-block bg-green-600 text-white px-4 py-2 rounded-md shadow hover:bg-green-700 transition">
+      ➕ Join a Classroom
+    </a>
+  </div>
+
+  {% if classroom %}
+  <div class="bg-white p-5 rounded-xl shadow border border-green-300 mb-6">
+    <h2 class="text-xl font-bold text-green-700 mb-2">🏫 Your Classroom</h2>
+    <p class="text-gray-700"><strong>Name:</strong> {{ classroom.name }}</p>
+    <p class="text-gray-700"><strong>Code:</strong> {{ classroom.code }}</p>
+  </div>
+  {% endif %}
+
+  <!-- AI Tools -->
+  <h2 class="text-2xl font-semibold text-green-800 mb-4">🧠 AI Learning Tools</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    <a href="/query/" class="bg-white hover:bg-green-100 transition shadow-md rounded-xl p-6 h-28 flex items-center justify-center text-green-800 font-medium">Multimodal Query</a>
+    <a href="/visual/" class="bg-white hover:bg-green-100 transition shadow-md rounded-xl p-6 h-28 flex items-center justify-center text-green-800 font-medium">Visual Aid Generator</a>
+    <a href="/pin/" class="bg-white hover:bg-green-100 transition shadow-md rounded-xl p-6 h-28 flex items-center justify-center text-green-800 font-medium">Contextual Pinboard</a>
+    <a href="/storytelling_mode/" class="bg-white hover:bg-green-100 transition shadow-md rounded-xl p-6 h-28 flex items-center justify-center text-green-800 font-medium">Story Mode Learning</a>
+    <a href="/ai/weakness-predictor" class="bg-white hover:bg-green-100 transition shadow-md rounded-xl p-6 h-28 flex items-center justify-center text-green-800 font-medium">Weakness Predictor</a>
+    <a href="/ai/whiteboard-explainer" class="bg-white hover:bg-green-100 transition shadow-md rounded-xl p-6 h-28 flex items-center justify-center text-green-800 font-medium">Whiteboard Explainer</a>
+    <a href="/teaching_mode" class="bg-white hover:bg-green-100 transition shadow-md rounded-xl p-6 h-28 flex items-center justify-center text-green-800 font-medium">Teaching Mode</a>
+    <a href="/feature/emotion-detection" class="bg-white hover:bg-green-100 transition shadow-md rounded-xl p-6 h-28 flex items-center justify-center text-green-800 font-medium">Emotion Detection</a>
+    <a href="/plagiarism/" class="bg-white hover:bg-green-100 transition shadow-md rounded-xl p-6 h-28 flex items-center justify-center text-green-800 font-medium">Plagiarism Detector</a>
+    <a href="/homework/" class="bg-white hover:bg-green-100 transition shadow-md rounded-xl p-6 h-28 flex items-center justify-center text-green-800 font-medium">Homework Tracker</a>
+  </div>
+</main>
+
+
+  <!-- Firebase Scripts (unchanged) -->
+  <script type="module">
+    // ... same firebase auth script
+  </script>
+</body>
+</html>

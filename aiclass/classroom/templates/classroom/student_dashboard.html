@@ -1,0 +1,44 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'classroom/css/student_dashboard.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2 class="dashboard-title">All Class Recordings</h2>
+        
+        <div class="recordings-grid">
+            {% for rec in recordings %}
+                <div class="recording-card">
+                    <h3 class="recording-title">{{ rec.title }}</h3>
+                    
+                    <div class="video-container">
+                        <video class="video-player" controls>
+                            <source src="{{ rec.video.url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="action-btn notes" onclick="location.href='{% url 'generate_notes' rec.id %}'">Make Notes</button>
+                        <a href="{% url 'view_notes' rec.id %}" class="action-btn view notes">View Notes</a>
+                        <button class="action-btn quiz" onclick="location.href='{% url 'generate_quiz' rec.id %}'">Make Quiz</button>
+                        <a href="{% url 'view_quiz' rec.id %}" class="action-btn view quiz">View Quiz</a>
+                        <a href="{% url 'reexplain_recording' rec.id %}" class="action-btn reexplain">Re-explain</a>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="empty-state">
+                    <div class="empty-state-icon">📹</div>
+                    <p class="empty-state-text">No class recordings found.</p>
+                </div>
+            {% endfor %}
+        </div>
+        <a href="{% url 'studentdashboard' %}" class="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md shadow">
+  ⬅ Back to Dashboard
+</a>
+    </div>
+</body>
+</html>

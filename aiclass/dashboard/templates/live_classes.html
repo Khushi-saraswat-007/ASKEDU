@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Live Classes - AskEdu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen font-sans">
+
+  <!-- Topbar -->
+  <header class="bg-white shadow p-4 flex items-center justify-between">
+    <h1 class="text-2xl font-bold text-green-700">🎥 Live Classes</h1>
+    <a href="/studentdashboard" class="text-green-600 hover:underline">← Back to Dashboard</a>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto py-8 px-4">
+    <!-- Upcoming Classes -->
+    <div class="bg-white rounded-2xl shadow p-6 border border-green-300">
+      <h2 class="text-xl font-semibold text-green-700 mb-4">📅 Upcoming Live Sessions</h2>
+
+      {% if meetings %}
+        <div class="space-y-4 max-h-[500px] overflow-y-auto pr-2">
+          {% for meeting in meetings %}
+            <div class="p-4 border rounded-xl bg-green-50">
+              <h3 class="text-lg font-bold text-green-800">{{ meeting.topic }}</h3>
+              <p class="text-gray-700"><strong>Start Time:</strong> {{ meeting.start_time }}</p>
+              <p class="text-gray-600"><strong>Classroom:</strong> {{ meeting.classroom.name }}</p>
+              <a href="{{ meeting.join_url }}" target="_blank" class="inline-block mt-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow">
+                🔗 Join Now
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <p class="text-gray-500">No upcoming live classes at the moment.</p>
+      {% endif %}
+    </div>
+  </main>
+</body>
+</html>

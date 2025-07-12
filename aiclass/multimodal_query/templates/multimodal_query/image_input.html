@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Image Input</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/buttons.css' %}">
+</head>
+<body class="theme-light">  <!-- or theme-dark -->
+  <div class="container">
+    <h1 class="main-heading">Image Input 🖼️</h1>
+
+    <div class="card">
+        <h2>🖼️ Upload an Image</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="image_file" accept="image/*" required>
+            <button class = 'btn-success center' type="submit">Upload & Explain</button>
+        </form>
+    </div>
+
+    {% if result %}
+        <hr>
+        <h3>📘 Explanation:</h3>
+        <p>{{ result }}</p>
+    {% endif %}
+
+    <div style="margin-top: 20px; text-align: center;">
+      <a href="{% url 'query_form' %}" class="btn">✨ Back to Dashboard ✨</a>
+    </div>
+  </div>
+</body>
+</html>

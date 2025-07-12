@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Manual Student List</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-green-50 p-6 font-sans">
+  <div class="max-w-5xl mx-auto bg-white p-6 rounded shadow">
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="text-2xl font-bold text-green-700">Manual Student List by Classroom</h1>
+      <a href="{% url 'teachersdashboard' %}" class="text-white bg-green-600 px-4 py-2 rounded hover:bg-green-700">← Back to Dashboard</a>
+    </div>
+
+    <!-- Classroom selection -->
+    <form method="get" class="mb-4">
+      <select name="classroom" onchange="this.form.submit()" class="w-full p-2 border rounded">
+        <option value="">-- Select Classroom --</option>
+        {% for classroom in classrooms %}
+          <option value="{{ classroom.id }}" {% if classroom.id|stringformat:"s" == selected_classroom_id %}selected{% endif %}>
+            {{ classroom.name }}
+          </option>
+        {% endfor %}
+      </select>
+    </form>
+
+    {% if selected_classroom_id %}
+      <!-- Add student form -->
+      <div class="mb-6">
+        <h2 class="text-xl font-semibold text-green-600 mb-2">Add New Student</h2>
+        <form method="post" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {% csrf_token %}
+          <input type="hidden" name="classroom" value="{{ selected_classroom_id }}" />
+          <input type="text" name="name" placeholder="Name" class="border p-2 rounded" required />
+          <input type="email" name="email" placeholder="Email" class="border p-2 rounded" />
+          <input type="text" name="roll_number" placeholder="Roll Number" class="border p-2 rounded" />
+          <input type="text" name="course" placeholder="Course" class="border p-2 rounded" />
+          <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700 col-span-full w-full">
+            Add Student
+          </button>
+        </form>
+      </div>
+
+      <!-- Student list table -->
+      <h2 class="text-xl font-semibold text-green-600 mb-2">Students in this Classroom</h2>
+      {% if students %}
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border">
+            <thead class="bg-green-100 text-green-800">
+              <tr>
+                <th class="p-2 border">Roll No</th>
+                <th class="p-2 border">Name</th>
+                <th class="p-2 border">Email</th>
+                <th class="p-2 border">Course</th>
+                <th class="p-2 border">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for student in students %}
+                <tr class="border-t">
+                  <td class="p-2 border">{{ student.roll_number }}</td>
+                  <td class="p-2 border">{{ student.name }}</td>
+                  <td class="p-2 border">{{ student.email }}</td>
+                  <td class="p-2 border">{{ student.course }}</td>
+                  <td class="p-2 border space-x-2">
+                    <a href="{% url 'edit_manual_student' student.id %}" class="text-blue-600 hover:underline">Edit</a>
+                    <a href="{% url 'delete_manual_student' student.id %}" class="text-red-600 hover:underline">Delete</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p>No students added in this classroom.</p>
+      {% endif %}
+    {% endif %}
+  </div>
+</body>
+</html>

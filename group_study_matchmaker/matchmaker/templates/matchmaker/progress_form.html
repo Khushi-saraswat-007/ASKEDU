@@ -1,0 +1,98 @@
+{% extends 'matchmaker/base.html' %}
+{% block title %}Submit Progress{% endblock %}
+{% block content %}
+
+<style>
+  body {
+    background-color: #e0f7e9 !important; /* ✅ MAIN light green */
+  }
+
+  h2 {
+    color: #0044cc;
+    margin-bottom: 20px;
+  }
+
+  form {
+    background-color: #145a32; /* ✅ Subsection dark green */
+    padding: 25px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 600px;
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  label {
+    font-weight: bold;
+    color: #c9f6da;
+  }
+
+  textarea, input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 4px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #000000;
+  }
+
+  button[type="submit"] {
+    background-color: #1e7f1e;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #0e5520;
+  }
+
+  .home-button {
+    display: inline-block;
+    margin-top: 25px;
+    background-color: #004d00;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+  }
+
+  .home-button:hover {
+    background-color: #003700;
+  }
+</style>
+
+<h2>📊 Post-Study Progress – {{ student.name }}</h2>
+
+<form method="post">
+  {% csrf_token %}
+  
+  <label>Topics Studied:</label><br>
+  <textarea name="topics" required rows="3"></textarea><br>
+
+  <label>Time Spent (in minutes):</label><br>
+  <input type="number" name="time_spent_minutes" min="1" required><br>
+
+  <label>Questions Solved:</label><br>
+  <input type="number" name="questions_solved" min="0" required><br>
+
+  <label>Self Rating (1–5):</label><br>
+  <input type="number" name="self_rating" min="1" max="5" required><br>
+
+  <label>Additional Notes (optional):</label><br>
+  <textarea name="notes" rows="2"></textarea><br>
+
+  <button type="submit">✅ Submit Progress</button>
+</form>
+
+<a href="/" class="home-button">🏠 Return to Home</a>
+
+{% endblock %}

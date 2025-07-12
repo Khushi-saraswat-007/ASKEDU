@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>📄 Smart Quiz Report | QuerySense</title>
+  <style>
+    body {
+      font-family: "Helvetica", "Arial", sans-serif;
+      padding: 30px;
+      font-size: 13px;
+      color: #1e3a8a; /* dark blue */
+      background-color: #f0fdf4; /* green-50 */
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 24px;
+      color: #065f46; /* dark green */
+      margin-bottom: 5px;
+    }
+
+    h3 {
+      font-size: 18px;
+      color: #047857; /* green-600 */
+      border-bottom: 2px solid #bbf7d0; /* light green border */
+      padding-bottom: 4px;
+      margin-top: 30px;
+    }
+
+    p {
+      margin: 6px 0;
+      font-size: 13px;
+    }
+
+    ul {
+      margin: 10px 0 10px 20px;
+      padding-left: 10px;
+    }
+
+    ul li {
+      margin-bottom: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      background-color: #ffffff;
+      border: 1px solid #a7f3d0;
+    }
+
+    th, td {
+      border: 1px solid #99f6e4;
+      padding: 6px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #bbf7d0; /* green-100 */
+      color: #065f46;
+    }
+
+    tr.green {
+      background-color: #dcfce7; /* correct answers */
+    }
+
+    tr.red {
+      background-color: #fee2e2; /* wrong answers */
+    }
+
+    img {
+      display: block;
+      margin: 20px auto;
+      border: 2px solid #bbf7d0;
+      border-radius: 8px;
+    }
+
+    .section-info {
+      margin-top: 20px;
+    }
+
+    .bold {
+      font-weight: bold;
+      color: #1e3a8a;
+    }
+  </style>
+</head>
+<body>
+  <h1>📄 Smart Quiz Report</h1>
+
+  <div class="section-info">
+    <p><span class="bold">📘 Subject:</span> {{ request.session.subject }}</p>
+    <p><span class="bold">📚 Topic:</span> {{ request.session.topic }}</p>
+    <p><span class="bold">✅ Score:</span> {{ result.score }} / {{ result.total }}</p>
+    <p><span class="bold">🎯 Accuracy:</span> {{ result.accuracy }}%</p>
+    <p><span class="bold">⏱️ Time Taken:</span> {{ result.time_taken }} seconds</p>
+    <p><span class="bold">🌟 Rating:</span> {{ result.rating }}/10</p>
+  </div>
+
+  <h3>📊 Performance Chart</h3>
+  <img src="{{ chart_url }}" width="400" alt="Performance Chart" />
+
+  <h3>💡 AI Suggestions</h3>
+  <ul>
+    {% if suggestions %}
+      {% for tip in suggestions %}
+        <li>{{ tip }}</li>
+      {% endfor %}
+    {% else %}
+      <li>✅ Excellent! No major weaknesses detected.</li>
+    {% endif %}
+  </ul>
+
+  <h3>📘 Answer Summary</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Question</th>
+        <th>Your Answer</th>
+        <th>Correct Answer</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for q in questions %}
+      <tr class="{% if q.selected == q.answer %}green{% else %}red{% endif %}">
+        <td>{{ q.question }}</td>
+        <td>{{ q.selected|default:"-" }}</td>
+        <td>{{ q.answer }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>

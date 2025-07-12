@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Record Audio</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/buttons.css' %}">
+</head>
+<body class="theme-light">  <!-- or theme-dark -->
+  <div class="container">
+    <h1 class="main-heading">Record Audio 🔉</h1>
+
+    <div class="card">
+        <h2>🎙️ Record Your Voice</h2>
+
+        <button id="startBtn" class = 'btn-secondary center'>Start Recording</button>
+        <button id="stopBtn" class = 'btn-success center' disabled>Stop & Upload</button>
+        <p id="status">Status: Not Recording</p>
+
+        <form method="post" enctype="multipart/form-data" id="uploadForm" style="display:none;">
+            {% csrf_token %}
+            <input type="file" name="recorded_audio" id="audioBlob" hidden>
+            <button type="submit" class = 'btn-primary btn center'>Submit</button>
+        </form>
+
+    </div>
+
+<script>
+let mediaRecorder;
+let audioChunks = [];
+
+document.getElementById("startBtn").onclick = async () => {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    mediaRecorder = new MediaRecorder(stream);
+    audioChunks = [];
+
+    mediaRecorder.ondataavailable = event => {
+        audioChunks.push(event.data);
+    };
+
+    mediaRecorder.onstop = async () => {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+        const fileInput = document.getElementById('audioBlob');
+        const file = new File([audioBlob], "recorded_audio.webm");
+
+        // create a new DataTransfer to simulate file upload
+        const dt = new DataTransfer();
+        dt.items.add(file);
+        fileInput.files = dt.files;
+
+        document.getElementById('uploadForm').style.display = 'block';
+        document.getElementById('status').innerText = "Status: Recording stopped. Ready to upload.";
+    };
+
+    mediaRecorder.start();
+    document.getElementById("status").innerText = "Status: Recording...";
+    document.getElementById("stopBtn").disabled = false;
+};
+
+document.getElementById("stopBtn").onclick = () => {
+    mediaRecorder.stop();
+    document.getElementById("stopBtn").disabled = true;
+};
+</script>
+
+    {% if result %}
+    <hr>
+    <h3>📝 Transcribed Text:</h3>
+    <p>{{ result.transcribed_text }}</p>
+
+    <h3>📌 Summary</h3>
+    <p>{{ result.summary }}</p>
+
+    <h3>📒 Notes</h3>
+    <p>{{ result.notes }}</p>
+
+    <h3>❓ Important Questions</h3>
+    <div>{% for q in result.questions %}<p>{{ q }}</p>{% endfor %}</div>
+
+    <h3>🧠 MCQs</h3>
+    <div>{% for m in result.mcqs %}<p>{{ m }}</p>{% endfor %}</div>
+
+    <h3>📖 Paragraph-Based Questions</h3>
+    <div>{% for p in result.paragraph_questions %}<p>{{ p }}</p>{% endfor %}</div>
+
+    <h3>🔗 Learn More</h3>
+    <div>{% for l in result.links %}<p>{{ l }}</p>{% endfor %}</div>
+    {% endif %}
+
+    
+    <div style="margin-top: 20px; text-align: center;">
+      <a href="{% url 'query_form' %}" class="btn">✨ Back to Dashboard ✨</a>
+    </div>
+  </div>
+</body>
+</html>

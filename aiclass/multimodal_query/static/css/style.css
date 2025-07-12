@@ -1,0 +1,263 @@
+body {
+  margin: 0;
+  font-family: 'Inter', 'SF Pro Display', -apple-system, sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  color: var(--text);
+  transition: all 0.3s ease;
+  min-height: 100vh;
+  position: relative;
+}
+
+:root {
+  --primary: #1e40af;
+  --primary-light: #3b82f6;
+  --accent: #059669;
+  --accent-light: #10b981;
+  --warm: #f59e0b;
+  --warm-light: #fbbf24;
+  --nostalgia: #92400e;
+  --bg: #f8fafc;
+  --text: #1e293b;
+  --card-bg: #ffffff;
+  --shadow: rgba(30, 64, 175, 0.08);
+  --paper: #fffef7;
+}
+
+/* Subtle notebook lines background */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(90deg, transparent 79px, rgba(30, 64, 175, 0.03) 80px, rgba(30, 64, 175, 0.03) 81px, transparent 82px),
+    linear-gradient(rgba(30, 64, 175, 0.02) 1px, transparent 1px);
+  background-size: 82px 24px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 50px 20px;
+}
+
+.main-heading {
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: #02553b;
+  position: relative;
+  letter-spacing: -0.02em;
+}
+
+.main-heading::before {
+  content: '✏️';
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2rem;
+  filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.1));
+}
+
+.main-heading::after {
+  content: '';
+  display: block;
+  width: 120px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--warm), var(--accent));
+  margin: 20px auto 0;
+  border-radius: 2px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+}
+
+.card {
+  background: var(--paper);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 
+    0 4px 6px -1px var(--shadow),
+    0 2px 4px -1px rgba(0,0,0,0.06),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(30, 64, 175, 0.08);
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+/* Vintage paper hole punches */
+.card::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 15px,
+    var(--warm) 15px,
+    var(--warm) 17px,
+    transparent 17px,
+    transparent 32px
+  );
+  opacity: 0.3;
+}
+
+/* Modern accent corner */
+.card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, var(--accent-light), var(--primary-light));
+  border-radius: 0 16px 0 60px;
+  opacity: 0.1;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 20px 25px -5px var(--shadow),
+    0 10px 10px -5px rgba(0,0,0,0.04),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  border-color: var(--primary-light);
+}
+
+.card:hover::after {
+  opacity: 0.2;
+  background: linear-gradient(135deg, var(--warm-light), var(--warm));
+}
+
+.card h2 {
+  color: var(--primary);
+  font-size: 1.6rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  letter-spacing: -0.01em;
+}
+
+.card h2::before {
+  content: '🎓';
+  font-size: 1.4rem;
+  padding: 8px;
+  background: linear-gradient(135deg, var(--accent-light), var(--accent));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(5, 150, 105, 0.2);
+}
+
+.card .instructions {
+  font-size: 0.95rem;
+  color: var(--accent);
+  margin-bottom: 25px;
+  font-weight: 500;
+  line-height: 1.5;
+  background: rgba(16, 185, 129, 0.08);
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-light));
+  color: white;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+  font-size: 1rem;
+  box-shadow: 
+    0 4px 14px 0 rgba(66, 175, 30, 0.3),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.01em;
+}
+
+.btn::before {
+  content: '';
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.4s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 25px 0 rgba(59, 175, 30, 0.4),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+  background: linear-gradient(135deg, var(--primary-light), var(--accent));
+}
+
+.btn:hover::before {
+  transform: translateX(4px);
+}
+
+.btn:hover::after {
+  width: 120px;
+  height: 120px;
+}
+
+/* Floating academic elements */
+.container::before {
+  content: '📐';
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  font-size: 2rem;
+  opacity: 0.1;
+  animation: float 6s ease-in-out infinite;
+}
+
+.container::after {
+  content: '📊';
+  position: absolute;
+  bottom: 15%;
+  left: 8%;
+  font-size: 1.8rem;
+  opacity: 0.1;
+  animation: float 8s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(5deg); }
+}

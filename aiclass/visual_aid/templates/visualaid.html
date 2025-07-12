@@ -1,0 +1,146 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Visual Aid Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Mermaid -->
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10.9.3/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: "default",
+      themeVariables: { transitionDuration: 700 }
+    });
+  </script>
+
+  <!-- html2canvas & jsPDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(25px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .fadeUp {
+      animation: fadeUp 0.8s ease-out both;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-green-100 via-white to-green-50 flex items-center justify-center py-10 px-4">
+
+  <!-- Glass Card -->
+  <div class="backdrop-blur-md bg-white/90 shadow-2xl rounded-3xl w-full max-w-4xl p-10 fadeUp">
+<!-- Back to Dashboard -->
+<div class="mb-4">
+  <a href="/studentdashboard/" class="inline-flex items-center gap-2 text-green-700 font-semibold hover:underline hover:text-green-900 transition">
+    ← Back to Dashboard
+  </a>
+</div>
+
+    <!-- Header -->
+    <div class="flex items-center justify-center gap-3 mb-8">
+      <img src="https://img.icons8.com/fluency/40/combo-chart.png" alt="" />
+      <h1 class="text-4xl font-extrabold text-green-800 drop-shadow">Visual Aid Generator</h1>
+    </div>
+
+    <!-- FORM -->
+    <form method="POST" class="space-y-5">
+      {% csrf_token %}
+      <input
+        type="text"
+        name="topic"
+        value="{{ topic }}"
+        placeholder="Enter a topic e.g. Photosynthesis"
+        required
+        class="w-full p-4 border border-gray-300 rounded-xl shadow-inner focus:ring-2 focus:ring-green-400 focus:outline-none"
+      />
+
+      <select
+        name="visual_type"
+        required
+        class="w-full p-4 border border-gray-300 rounded-xl bg-white shadow-inner focus:ring-2 focus:ring-green-300 focus:outline-none"
+      >
+        <option value="" disabled {% if not visual_type %}selected{% endif %}>Select Visual Type</option>
+        <option value="flowchart"          {% if visual_type == 'flowchart' %}selected{% endif %}>Flowchart</option>
+        <option value="sequence diagram"   {% if visual_type == 'sequence diagram' %}selected{% endif %}>Sequence Diagram</option>
+        <option value="process diagram"    {% if visual_type == 'process diagram' %}selected{% endif %}>Process Diagram</option>
+        <option value="org chart"          {% if visual_type == 'org chart' %}selected{% endif %}>Org Chart</option>
+      </select>
+
+      <div class="flex justify-center">
+        <button
+          type="submit"
+          class="relative inline-flex items-center gap-2 px-8 py-3 rounded-full bg-green-600 text-white font-semibold shadow-lg hover:bg-green-700 transition active:scale-95"
+        >
+          🔍 Generate
+        </button>
+      </div>
+    </form>
+
+    <!-- RESULT -->
+    {% if output %}
+    <div class="mt-10 fadeUp">
+      <h2 class="text-2xl font-semibold text-green-800 mb-3">
+        Visual for <span class="text-blue-700">“{{ topic }}”</span>
+        <span class="text-sm text-gray-500">({{ visual_type|capfirst }})</span>
+      </h2>
+
+      <div id="visualBox" class="bg-white/70 border border-gray-300 rounded-xl p-4 overflow-auto shadow-inner">
+        <pre class="mermaid text-sm">{{ output|safe }}</pre>
+      </div>
+
+      <!-- Download Buttons -->
+      <div class="flex gap-4 mt-6">
+        <button onclick="downloadImage()" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 rounded-xl shadow">
+          📸 Image
+        </button>
+        <button onclick="downloadPDF()" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-xl shadow">
+          📄 PDF
+        </button>
+      </div>
+
+      <!-- Raw text -->
+      <details class="mt-4 text-sm text-blue-700 cursor-pointer">
+        <summary>Show raw diagram text</summary>
+        <pre class="bg-gray-100 p-3 rounded mt-2">{{ output }}</pre>
+      </details>
+    </div>
+    {% endif %}
+  </div>
+ 
+
+  <!-- Download logic -->
+  <script>
+    function captureElm() {
+      return html2canvas(document.getElementById('visualBox'), {backgroundColor: null});
+    }
+    function downloadImage() {
+      captureElm().then(cv => {
+        const link = document.createElement('a');
+        link.download = 'visual.png';
+        link.href = cv.toDataURL();
+        link.click();
+      });
+    }
+    function downloadPDF() {
+      captureElm().then(cv => {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation: 'landscape' });
+        const img = cv.toDataURL('image/png');
+        const width = pdf.internal.pageSize.getWidth();
+        const height = pdf.internal.pageSize.getHeight();
+        pdf.addImage(img, 'PNG', 10, 10, width - 20, 0);
+        pdf.save('visual.pdf');
+      });
+    }
+  </script>
+
+</body>
+</html>

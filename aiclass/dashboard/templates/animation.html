@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AskEdu - Your Learning Journey Starts Here</title>
+    <style>
+        
+    .title {
+      font-size: 4rem;
+      font-weight: bold;
+      color: #2d3748;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      position: relative;
+    }
+
+    .welcome-bubble {
+      background: #8f57ff;
+      color: white;
+      padding: 16px 24px;
+      border-radius: 30px;
+      font-size: 18px;
+      max-width: 600px;
+      margin: 20px auto;
+      text-align: center;
+      animation: fadeIn 1s ease;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .typing {
+      border-right: .15em solid white;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 3.5s steps(50, end) forwards, blink .75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #2d3748;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            padding: 60px 0;
+            text-align: center;
+            position: relative;
+            background: white;
+            color: #2d3748;
+        }
+
+        .bus-container {
+            position: relative;
+            height: 300px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            
+        }
+
+        .bus {
+            position: absolute;
+            top: 0;
+            left: -80px;
+            width: 300px;
+            height: 300px;
+            font-size: 60px;
+            animation: moveBus 6s linear infinite;
+            z-index: 10;
+
+        }
+
+        @keyframes moveBus {
+            0% {
+                left: -80px;
+            }
+            80% {
+                left: calc(100% + 30px);
+            }
+            100% {
+                left: calc(100% + 30px);
+            }
+        }
+
+        .title {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #4a5568;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #48bb78, #38a169);
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #38a169, #2f855a);
+        }
+
+        .board-section {
+            display: none;
+        }
+
+        .features {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2d3748;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #718096;
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+
+        .feature-description {
+            color: #4a5568;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .stats-section {
+            background: #f7fafc;
+            padding: 60px 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+
+        .stat-label {
+            color: #4a5568;
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+            color: #667eea;
+        }
+
+        .floating-shape:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-shape:nth-child(2) {
+            top: 60%;
+            right: 15%;
+            animation-delay: 2s;
+        }
+
+        .floating-shape:nth-child(3) {
+            bottom: 30%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+
+        .auth-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-btn {
+            padding: 10px 25px;
+            border: 2px solid #667eea;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .login-btn {
+            background: transparent;
+            color: #667eea;
+        }
+
+        .login-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .signup-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .signup-btn:hover {
+            background: #5a67d8;
+            border-color: #5a67d8;
+        }
+
+        /* Responsive Breakpoints */
+        
+        /* Tablet - 768px and below: 2 cards per row */
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+            
+            .title {
+                font-size: 3rem;
+            }
+            
+            .board {
+                width: 300px;
+                height: 225px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .auth-buttons {
+                position: relative;
+                top: auto;
+                right: auto;
+                justify-content: center;
+                margin-bottom: 20px;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .feature-card {
+                padding: 25px;
+            }
+        }
+
+        /* Mobile - 480px and below: 1 card per row */
+        @media (max-width: 480px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+                padding: 0 10px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .auth-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
+            
+            .auth-btn {
+                width: 120px;
+                text-align: center;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-subtitle {
+                font-size: 1rem;
+                padding: 0 10px;
+            }
+            
+            .feature-card {
+                padding: 20px;
+            }
+            
+            .feature-icon {
+                font-size: 2rem;
+            }
+            
+            .feature-title {
+                font-size: 1.2rem;
+            }
+            
+            .cta-button {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+            
+            .bus {
+                font-size: 40px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+
+<script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="auth-buttons">
+            <a href="login/" class="auth-btn login-btn">Login/Signup</a>
+        </div>
+
+        <div class="floating-elements">
+            <div class="floating-shape">🚌</div>
+            <div class="floating-shape">📚</div>
+            <div class="floating-shape">🎓</div>
+
+        </div>
+
+        <div class="container">
+            <div class="bus-container">
+                <div class="bus">
+                    <dotlottie-player src="https://lottie.host/e523fe2f-998f-4b66-9fc7-9a45cac530e9/fBlD6x7of3.lottie" background="transparent" speed="1" style="width: 300px; height: 300px" loop autoplay></dotlottie-player>
+                </div>
+            </div>
+            
+            <h1 class="title">AskEdu</h1>
+
+            <div class="welcome-bubble">
+                <span id="welcomeText" class="typing">Hey! Welcome to AskEdu, your AI classroom assistant.</span>
+            </div>
+            
+            <p class="subtitle">
+                Revolutionary AI-powered education platform with multimodal learning, 
+                real-time assistance, and personalized teaching experiences that adapt to your unique learning style.
+            </p>
+            
+            <a href="#features" class="cta-button" id="getStartedBtn">Get Started</a>
+        </div>
+    </header>
+
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number">17+</span>
+                    <span class="stat-label">AI-Powered Features</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">∞</span>
+                    <span class="stat-label">Learning Possibilities</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">24/7</span>
+                    <span class="stat-label">AI Assistance</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <span class="stat-label">Personalized</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Revolutionary Learning Features</h2>
+            <p class="section-subtitle">
+                Experience the future of education with our comprehensive AI-powered tools designed to transform how you learn, teach, and grow.
+            </p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎤</div>
+                    <h3 class="feature-title">Real-Time Multimodal Query Processor</h3>
+                    <p class="feature-description">
+                        Ask questions using text, speech, or images. Upload math problems, diagrams, or speak naturally - our AI understands and responds across all formats with advanced speech-to-text and visual recognition.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Visual Aid Generator</h3>
+                    <p class="feature-description">
+                        Dynamically creates charts, flowcharts, and annotated images based on your queries. Request a photosynthesis diagram or complex data visualization and watch it appear instantly.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📌</div>
+                    <h3 class="feature-title">Contextual Pinboard</h3>
+                    <p class="feature-description">
+                        Pin any concept you didn't understand with one click. Our AI revisits and reinforces these topics later, ensuring no knowledge gap is left behind.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📖</div>
+                    <h3 class="feature-title">Story Mode Learning</h3>
+                    <p class="feature-description">
+                        Transform any topic into engaging stories and real-life situations. Make even the most boring subjects interesting and memorable through narrative learning.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔮</div>
+                    <h3 class="feature-title">Weakness Predictor</h3>
+                    <p class="feature-description">
+                        AI analyzes your quiz performance, study time, and learning patterns to predict topics you might struggle with - even before tests, helping you prepare proactively.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3 class="feature-title">Code Explanation Assistant</h3>
+                    <p class="feature-description">
+                        Paste any code snippet and get detailed explanations of functionality, logic flow, and best practices. Perfect for programming students and developers.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">😊</div>
+                    <h3 class="feature-title">Emotion & Engagement Detection</h3>
+                    <p class="feature-description">
+                        Monitors facial expressions to detect confusion, boredom, or attention loss. Automatically adjusts teaching pace and offers simpler explanations when needed.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🧑‍🏫</div>
+                    <h3 class="feature-title">Teaching Mode (Learn by Teaching)</h3>
+                    <p class="feature-description">
+                        Explain topics back to the AI to reinforce learning. Our system evaluates your explanations, identifies gaps, and helps you master concepts through teaching.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3 class="feature-title">Group Study Matchmaker</h3>
+                    <p class="feature-description">
+                        AI matches you with study partners based on similar interests, weak topics, and learning goals. Includes collaborative timers and leaderboards for motivation.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⏰</div>
+                    <h3 class="feature-title">Time Travel Tutor</h3>
+                    <p class="feature-description">
+                        Learn from historical figures! Study gravity with "Newton," philosophy with "Socrates," or physics with "Einstein" through AI-powered persona interactions.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎭</div>
+                    <h3 class="feature-title">AI Mentor Persona Selector</h3>
+                    <p class="feature-description">
+                        Choose your AI teacher's personality: Chill friend, strict professor, or anime senpai. Each provides guidance with unique teaching styles and tones.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3 class="feature-title">Homework Helper & Tracker</h3>
+                    <p class="feature-description">
+                        Organizes assignments, explains questions, and provides deadline reminders. Offers hints and breakdowns without giving direct answers unless requested.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎙</div>
+                    <h3 class="feature-title">AI-Powered Classroom Recorder</h3>
+                    <p class="feature-description">
+                        Records live classes and converts audio into topic-wise notes, flashcards, and quiz questions. Perfect for revision and catching missed information.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">Concept Remix Studio</h3>
+                    <p class="feature-description">
+                        Transform concepts into songs, poems, memes, or comics. Turn Newton's Laws into rap battles or historical events into engaging stories for better retention.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🏛</div>
+                    <h3 class="feature-title">Historical Time Machine</h3>
+                    <p class="feature-description">
+                        Walk through virtual timelines with interactive explanations, maps, and avatars. Experience the French Revolution, Space Race, or any historical period firsthand.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Smooth scrolling for the Get Started button
+        document.getElementById('getStartedBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('features').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        // Add interactive hover effects
+        const featureCards = document.querySelectorAll('.feature-card');
+        featureCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+                this.style.boxShadow = '0 12px 40px rgba(0,0,0,0.15)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+                this.style.boxShadow = '0 4px 20px rgba(0,0,0,0.05)';
+            });
+        });
+
+        // Add click effect to CTA button
+        const ctaButton = document.getElementById('getStartedBtn');
+        ctaButton.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+
+        // Counter animation for stats
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target === Infinity ? '∞' : target + '+';
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current) + '+';
+                }
+            }, 20);
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all feature cards
+        featureCards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        // Parallax effect for floating elements
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const floatingShapes = document.querySelectorAll('.floating-shape');
+            
+            floatingShapes.forEach((shape, index) => {
+                const speed = 0.3 + (index * 0.1);
+                shape.style.transform = translateY(${scrolled * speed}px) rotate(${scrolled * 0.05}deg);
+            });
+        });
+
+        // Add loading animation
+        window.addEventListener('load', function() {
+            document.body.style.opacity = '1';
+        });
+
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.5s ease';
+
+    let hasSpoken = false;
+
+    function speakWelcome() {
+      if (hasSpoken) return;
+      hasSpoken = true;
+
+      const msg = new SpeechSynthesisUtterance("Hey! Welcome to Ask Edu, your AI classroom assistant.");
+      msg.pitch = 1.2;
+      msg.rate = 1;
+      msg.volume = 1;
+      speechSynthesis.speak(msg);
+    }
+
+    function enableVoiceOnInteraction() {
+      window.addEventListener("scroll", speakWelcome, { once: true });
+      window.addEventListener("click", speakWelcome, { once: true });
+    }
+
+    // Fade-in and voice interaction setup
+    window.addEventListener('load', () => {
+      document.body.style.opacity = '1';
+      enableVoiceOnInteraction();
+    });
+    </script>
+</body>
+</html>

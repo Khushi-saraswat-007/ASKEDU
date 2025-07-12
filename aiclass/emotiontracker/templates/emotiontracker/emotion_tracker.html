@@ -1,0 +1,83 @@
+<!-- templates/emotion_tracker.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Attention Tracker</title>
+  <script defer src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@mediapipe/face_detection"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+  <style>
+    body {
+      text-align: center;
+      background: #f0fdf4;
+      font-family: sans-serif;
+    }
+    #webcam {
+      width: 480px;
+      border: 4px solid #22c55e;
+      border-radius: 12px;
+      margin-top: 20px;
+    }
+    .status {
+      font-weight: bold;
+      color: #15803d;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎥 Emotion & Attention Detection</h1>
+  <p><strong>Student:</strong> {{ student_name }}</p>
+  <p><strong>Meeting ID:</strong> {{ meeting_id }}</p>
+  <video id="webcam" autoplay muted playsinline></video>
+  <p class="status" id="attentionStatus">Detecting...</p>
+
+  <script>
+    const videoElement = document.getElementById('webcam');
+    const statusText = document.getElementById('attentionStatus');
+    const studentName = "{{ student_name }}";
+    const meetingId = "{{ meeting_id }}";
+
+    async function startCamera() {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      videoElement.srcObject = stream;
+    }
+
+    async function sendLog(attentive) {
+      await fetch('/process_emotion/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+          student_name: studentName,
+          meeting_id: meetingId,
+          attentive: attentive,
+          timestamp: new Date().toISOString()
+        })
+      });
+    }
+
+    function simulateDetection() {
+      // Simulate eye open detection: alternate between attentive/inattentive
+      const attentive = Math.random() > 0.2; // 80% chance attentive
+      statusText.textContent = attentive ? "🟢 Attentive" : "🔴 Not Attentive";
+      sendLog(attentive);
+    }
+
+    // Start
+    startCamera();
+    setInterval(simulateDetection, 5000); // log every 5 seconds
+
+    // Auto-close tab after 40 minutes (Zoom class duration)
+    setTimeout(() => {
+      alert("Class ended. Closing attention tracker.");
+      window.close();
+    }, 40 * 60 * 1000);
+  </script>
+</body>
+</html>

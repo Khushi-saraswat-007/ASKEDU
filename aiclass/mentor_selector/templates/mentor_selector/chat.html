@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat with {{ mentor_type|capfirst }}</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f2f9f6;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .mentor-name {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .chat-box {
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+        .message {
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 8px;
+        }
+        .user {
+            background: #d1f5e0;
+            align-self: flex-end;
+        }
+        .mentor {
+            background: #e8e8ff;
+        }
+        .chat-input {
+            margin-top: 20px;
+        }
+        .chat-input input[type="text"] {
+            width: 85%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        .chat-input input[type="submit"] {
+            padding: 10px 16px;
+            border: none;
+            background: #0f9d58;
+            color: white;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .new-chat {
+            margin-top: 10px;
+            text-align: right;
+        }
+        .new-chat a {
+            color: #0f9d58;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .end-chat {
+            margin-top: 10px;
+            text-align: right;
+        }
+
+        .speak-buttons {
+            margin-top: 6px;
+        }
+
+        .speak-buttons button {
+            background: #4caf50;
+            color: white;
+            padding: 4px 10px;
+            margin-right: 6px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .speak-buttons .stop-btn {
+            background: #e53935;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="mentor-name">
+                🧠 Chatting with: <strong>{{ mentor_type|capfirst }}</strong>
+            </div>
+            <div class="new-chat">
+                <a href="{% url 'new_chat' mentor_type=mentor_type %}">+ Start New Chat</a>
+            </div>
+        </div>
+
+        <div class="chat-box">
+            {% for msg in chat_history %}
+                <div class="message {{ msg.sender }}">
+                    <strong>{{ msg.sender|title }}:</strong> {{ msg.text }}
+                    
+                    {% if msg.sender == "mentor" %}
+                        <div class="speak-buttons">
+                            <button onclick="speak('{{ msg.text|escapejs }}')">🎙️ Speak</button>
+                            <button onclick="stopSpeaking()" class="stop-btn">🔇 Stop</button>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="chat-input">
+            <form method="post">
+                {% csrf_token %}
+                <input type="text" name="user_question" placeholder="Ask your question..." required>
+                <input type="submit" value="Send">
+            </form>
+        </div>
+
+        <div class="end-chat">
+            <a href="{% url 'landing' %}" style="background:#0288d1; color:white; padding:10px 16px; border-radius:6px; text-decoration:none;">🔚 End Chat</a>
+        </div>
+    </div>
+
+    <script>
+        let synth = window.speechSynthesis;
+        let utterance = null;
+
+        function speak(text) {
+            if (synth.speaking) synth.cancel();
+            utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 1;
+            utterance.pitch = 1;
+            utterance.lang = 'en-US';
+            synth.speak(utterance);
+        }
+
+        function stopSpeaking() {
+            if (synth.speaking) synth.cancel();
+        }
+    </script>
+</body>
+</html>

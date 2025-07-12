@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Edit Announcement</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+  <div class="max-w-xl mx-auto bg-white p-6 rounded shadow">
+    <h2 class="text-xl font-bold mb-4">✏️ Edit Announcement</h2>
+    <form method="POST">
+      {% csrf_token %}
+      <input type="text" name="title" value="{{ announcement.title }}" class="w-full mb-3 p-2 border rounded" required />
+      <textarea name="message" class="w-full p-2 border rounded" rows="4" required>{{ announcement.message }}</textarea>
+      <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded mt-3">💾 Update</button>
+    </form>
+  </div>
+</body>
+</html>

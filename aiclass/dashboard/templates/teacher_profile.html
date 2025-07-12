@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Teacher Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-green-50 min-h-screen flex items-center justify-center">
+  <div class="bg-white p-8 rounded-2xl shadow-md w-full max-w-3xl">
+    <h2 class="text-3xl font-bold text-green-700 mb-6">👩‍🏫 Teacher Profile</h2>
+
+    <form method="POST" class="space-y-4">
+      {% csrf_token %}
+
+      <div class="grid md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-green-600">Name</label>
+          <input type="text" id="teacher_name" disabled
+                 class="w-full p-2 bg-gray-100 rounded border border-green-300">
+        </div>
+
+        <div>
+          <label class="block text-green-600">Email</label>
+          <input type="email" id="teacher_email" disabled
+                 class="w-full p-2 bg-gray-100 rounded border border-green-300">
+        </div>
+
+        <div>
+          <label class="block text-green-600">Phone</label>
+          <input name="phone" type="text" value="{{ profile.phone }}"
+                 class="w-full p-2 rounded border border-green-300 focus:outline-green-500">
+        </div>
+
+        <div>
+          <label class="block text-green-600">Address</label>
+          <input name="address" type="text" value="{{ profile.address }}"
+                 class="w-full p-2 rounded border border-green-300 focus:outline-green-500">
+        </div>
+
+        <div>
+          <label class="block text-green-600">Emergency Contact Name</label>
+          <input name="emergency_contact_name" type="text" value="{{ profile.emergency_contact_name }}"
+                 class="w-full p-2 rounded border border-green-300 focus:outline-green-500">
+        </div>
+
+        <div>
+          <label class="block text-green-600">Emergency Contact Number</label>
+          <input name="emergency_contact_number" type="text" value="{{ profile.emergency_contact_number }}"
+                 class="w-full p-2 rounded border border-green-300 focus:outline-green-500">
+        </div>
+
+        <div>
+          <label class="block text-green-600">Emergency Contact Relation</label>
+          <input name="emergency_contact_relation" type="text" value="{{ profile.emergency_contact_relation }}"
+                 class="w-full p-2 rounded border border-green-300 focus:outline-green-500">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-green-600">Bio</label>
+        <textarea name="bio" rows="3"
+                  class="w-full p-2 rounded border border-green-300 focus:outline-green-500">{{ profile.bio }}</textarea>
+      </div>
+
+      <div class="text-right flex justify-between items-center">
+        <a href="{% url 'teachersdashboard' %}" class="text-green-600 underline">← Back to Dashboard</a>
+        <button type="submit"
+                class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition">
+          💾 Save Profile
+        </button>
+      </div>
+    </form>
+  </div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBC1fBrv_5i4njn4m1hyxlm0NHiakXEDws",
+    authDomain: "aiassistant-9fd2a.firebaseapp.com",
+    projectId: "aiassistant-9fd2a",
+    storageBucket: "aiassistant-9fd2a.appspot.com",
+    messagingSenderId: "471558413017",
+    appId: "1:471558413017:web:956fa093d79c0a8fd27cc8",
+    measurementId: "G-D9H8CW2BX1"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth();
+  const db = getFirestore();
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = "/";
+      return;
+    }
+
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      alert("User data not found.");
+      await signOut(auth);
+      window.location.href = "/";
+      return;
+    }
+
+    const userData = docSnap.data();
+    const name = userData.name;
+    const email = user.email;
+
+    const nameInput = document.getElementById("teacher_name");
+    const emailInput = document.getElementById("teacher_email");
+
+    if (nameInput) nameInput.value = name || "Teacher";
+    if (emailInput) emailInput.value = email || "Not available";
+  });
+</script>
+
+</body>
+</html>

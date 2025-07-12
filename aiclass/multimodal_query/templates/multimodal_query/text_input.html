@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Text Input</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/buttons.css' %}">
+</head>
+<body class="theme-light">  <!-- or theme-dark -->
+  <div class="container">
+    <h1 class="main-heading">Text Input 🖊️</h1>
+
+    <div class="card">
+      <form method="POST">
+        {% csrf_token %}
+        <label for="user_text"><strong>Enter your text content:</strong></label>
+        <textarea id="user_text" name="user_text" rows="8" style="width: 100%; margin: 15px 0; padding: 10px; border-radius: 8px; border: 1px solid #ccc;" required>{{ user_text }}</textarea>
+        <button class = 'btn-primary btn center' type="submit">Submit</button>
+      </form>
+    </div>
+
+    {% if result %}
+    <div class="result-section">
+        <h3>Summary</h3>
+        <p>{{ result.summary }}</p>
+
+        <h3>Notes</h3>
+        <p>{{ result.notes }}</p>
+
+        <div>
+        <h3>Important Questions</h3>
+        {% for q in result.questions %}
+            <p>{{ q }}</p>
+        {% endfor %}
+        </div>
+
+        <h3>MCQs</h3>
+        <div>
+        {% for mcq in result.mcqs %}
+            <p>{{ mcq }}</p>
+        {% endfor %}
+        </div>
+
+        <h3>Paragraph-based Questions</h3>
+        <div>
+        {% for pq in result.paragraph_questions %}
+            <p>{{ pq }}</p>
+        {% endfor %}
+        </div>
+
+        <h3>Websites to Learn More</h3>
+        <ul>
+        {% for site in result.pnks %}
+            <li><a href="{{ site }}" target="_blank">{{ site }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+    <div style="margin-top: 20px; text-align: center;""">
+      <a href="{% url 'query_form' %}" class="btn">✨ Back to Dashboard ✨</a>
+    </div>
+  </div>
+</body>
+</html>

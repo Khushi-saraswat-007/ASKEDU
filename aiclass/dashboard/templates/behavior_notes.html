@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Classroom-wise Behavior Notes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="max-w-4xl mx-auto py-10">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold text-green-600">📝 Student Behavior Notes</h1>
+            <a href="{% url 'teachersdashboard' %}" class="text-white bg-green-600 px-4 py-2 rounded hover:bg-green-700">← Back to Dashboard</a>
+        </div>
+
+        <!-- Classroom Selection -->
+        <form method="get" class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Select Classroom</label>
+            <select name="classroom" onchange="this.form.submit()" class="w-full px-4 py-2 border rounded">
+                <option value="">-- Choose Classroom --</option>
+                {% for classroom in classrooms %}
+                    <option value="{{ classroom.id }}" {% if classroom.id|stringformat:"s" == selected_classroom_id %}selected{% endif %}>
+                        {{ classroom.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+
+        {% if selected_classroom_id %}
+            <!-- Add Note Form -->
+            <form method="POST" class="bg-white p-6 rounded-xl shadow space-y-4 mb-10">
+                {% csrf_token %}
+                <input type="hidden" name="classroom_id" value="{{ selected_classroom_id }}">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Select Student</label>
+                    <select name="student_id" required class="w-full px-4 py-2 border rounded-md">
+                        <option value="">-- Choose Student --</option>
+                        {% for student in students %}
+                            <option value="{{ student.id }}">{{ student.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Note</label>
+                    <textarea name="note" rows="3" class="w-full px-4 py-2 border rounded-md" placeholder="Write your behavior note..." required></textarea>
+                </div>
+                <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded-md">➕ Add Note</button>
+            </form>
+
+            <!-- Previous Notes Table -->
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4">📋 Notes for This Classroom</h2>
+            {% if notes %}
+                <div class="space-y-4">
+                    {% for note in notes %}
+                        <div class="bg-white p-4 rounded-lg shadow flex justify-between items-start">
+                            <div>
+                                <p class="text-lg font-semibold">{{ note.student.name }}</p>
+                                <p class="text-gray-600 text-sm">{{ note.note }}</p>
+                                <p class="text-xs text-gray-400 mt-1">{{ note.created_at|date:"d M Y, H:i" }}</p>
+                            </div>
+                            <div class="flex space-x-2">
+                                <a href="{% url 'edit_behavior_note' note.id %}" class="text-blue-600 hover:underline">✏️ Edit</a>
+                                <a href="{% url 'delete_behavior_note' note.id %}" class="text-red-600 hover:underline">🗑️ Delete</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-500">No notes for this classroom yet.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+</body>
+</html>

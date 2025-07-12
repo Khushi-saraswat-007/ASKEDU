@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'classroom/css/teacher_dashboard.css' %}">
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="dashboard-header">
+            <h2 class="dashboard-title">Your Uploaded Recordings</h2>
+            <a href="{% url 'upload_recording' %}" class="upload-btn">Upload New Recording</a>
+        </div>
+        
+        <!-- Optional: Stats section if you want to show recording counts -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ recordings|length }}</div>
+                <div class="stat-label">Total Recordings</div>
+            </div>
+        </div>
+        
+        <div class="recordings-grid">
+            {% for rec in recordings %}
+                <div class="recording-card">
+                    <div class="recording-header">
+                        <h3 class="recording-title">{{ rec.title }}</h3>
+                        <a href="{% url 'delete_recording' rec.id %}" class="delete-btn">Delete</a>
+                    </div>
+                    
+                    <div class="video-container">
+                        <video class="video-player" controls>
+                            <source src="{{ rec.video.url }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    
+                    <!-- Optional: Add metadata if available -->
+                    <div class="recording-meta">
+                        <div class="upload-date">{{ rec.created_at|date:"M d, Y" }}</div>
+                        <div class="video-duration">{{ rec.duration|default:"--:--" }}</div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="empty-state">
+                    <div class="empty-state-icon">🎥</div>
+                    <p class="empty-state-text">No recordings uploaded yet.</p>
+                    <p class="empty-state-subtext">Start by uploading your first class recording to share with students.</p>
+                    <a href="{% url 'upload_recording' %}" class="upload-btn">Upload Your First Recording</a>
+                </div>
+            {% endfor %}
+        </div>
+        <a href="{% url 'teachersdashboard' %}" class="inline-block mt-4 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md shadow">
+  ⬅ Back to Dashboard
+</a>
+    </div>
+</body>
+</html>

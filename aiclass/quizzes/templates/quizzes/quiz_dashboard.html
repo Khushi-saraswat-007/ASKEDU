@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QuerySense | Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- TailwindCSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="bg-green-100 text-black font-sans">
+  <div class="max-w-7xl mx-auto p-6">
+    <h1 class="text-4xl font-extrabold mb-6 text-green-900 text-center">📊 Welcome to Your Dashboard</h1>
+
+    <!-- 🧠 AI Suggestions -->
+    {% if ai_suggestions %}
+    <div class="bg-green-200 shadow-lg rounded-lg p-6 mb-8 border-l-4 border-green-600">
+      <h2 class="text-xl font-bold text-blue-900 mb-3">🧠 AI Suggestions</h2>
+      <ul class="list-disc list-inside text-black space-y-1">
+        {% for s in ai_suggestions %}
+        <li>{{ s|safe }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <!-- 📚 Topic Performance -->
+    <div class="bg-green-200 shadow-lg rounded-lg p-6 mb-8">
+      <h2 class="text-xl font-bold text-blue-900 mb-3">📌 Your Topic Performance</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left border rounded bg-green-100">
+          <thead class="bg-green-300 text-green-900 font-semibold">
+            <tr>
+              <th class="py-2 px-4">Subject</th>
+              <th class="py-2 px-4">Topic</th>
+              <th class="py-2 px-4">Attempts</th>
+              <th class="py-2 px-4">Avg Rating</th>
+              <th class="py-2 px-4">Weak Area?</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in topic_analysis %}
+            <tr class="{% if item.weak %}bg-red-100{% else %}bg-green-100{% endif %} border-b text-black">
+              <td class="py-2 px-4">{{ item.subject }}</td>
+              <td class="py-2 px-4">{{ item.topic }}</td>
+              <td class="py-2 px-4">{{ item.attempts }}</td>
+              <td class="py-2 px-4">{{ item.avg_rating }}/10</td>
+              <td class="py-2 px-4">
+                {% if item.weak %}
+                  ⚠️ Yes
+                {% else %}
+                  ✅ No
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 📝 Recent Quizzes -->
+    <div class="bg-green-200 shadow-lg rounded-lg p-6 mb-8">
+      <h2 class="text-xl font-bold text-blue-900 mb-3">📝 Recent Quizzes</h2>
+      <ul class="list-disc list-inside text-black">
+        {% for quiz in quizzes %}
+          <li>{{ quiz.subject }} - {{ quiz.topic }} ({{ quiz.score }}/{{ quiz.num_questions }}) | Rating: {{ quiz.rating }}/10</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <!-- 📈 Performance Chart -->
+    <div class="bg-green-200 shadow-lg rounded-lg p-6 mb-8">
+      <h2 class="text-xl font-bold text-blue-900 mb-4">📈 Topic-wise Performance</h2>
+      <div class="overflow-auto max-h-[300px]">
+        <canvas id="performanceChart" class="w-full" style="height: 300px;"></canvas>
+      </div>
+    </div>
+
+    <!-- 🔗 Quick Links -->
+    <div class="text-center space-x-6 mt-6">
+      <a href="{% url 'studentdashboard' %}" class="text-blue-800 font-semibold hover:underline">⬅ Back To Main  Dashboard</a>
+
+      <a href="{% url 'quiz_history' %}" class="text-blue-800 font-semibold hover:underline">📜 View Quiz History</a>
+      <a href="{% url 'leaderboard' %}" class="text-blue-800 font-semibold hover:underline">🏆 View Leaderboard</a>
+    </div>
+  </div>
+
+  <!-- Chart.js -->
+  <script>
+    const ctx = document.getElementById('performanceChart').getContext('2d');
+    const performanceChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: {{ labels|safe }},
+        datasets: [{
+          label: 'Average Score (%)',
+          data: {{ scores|safe }},
+          backgroundColor: 'rgba(22, 163, 74, 0.6)', // deeper green
+          borderColor: 'rgba(22, 163, 74, 1)',
+          borderWidth: 1,
+          borderRadius: 10
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

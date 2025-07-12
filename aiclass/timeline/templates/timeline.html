@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ timeline.title }} – Historical Timeline{% endblock %}
+
+{% block extra_head %}
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+{% endblock %}
+
+{% block content %}
+<!-- Header -->
+<div class="bg-primary text-white py-5">
+  <div class="container">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb text-white-50">
+        <li class="breadcrumb-item"><a href="{% url 'timeline_home' %}" class="text-white-50 text-decoration-none">
+          <i class="fas fa-home"></i> Home</a></li>
+        <li class="breadcrumb-item active text-white" aria-current="page">{{ timeline.title }}</li>
+      </ol>
+    </nav>
+
+    <div class="d-flex align-items-center mb-3">
+      <span class="display-3 me-4">{{ timeline.avatar }}</span>
+      <div>
+        <h1 class="display-4 fw-bold mb-2">{{ timeline.title }}</h1>
+        <p class="lead mb-0">{{ timeline.period }}</p>
+      </div>
+    </div>
+    <p class="lead">{{ timeline.description }}</p>
+    <div class="mt-3">
+      <span class="badge bg-light text-dark me-2"><i class="fas fa-tag me-1"></i>{{ timeline.category }}</span>
+      <span class="badge bg-light text-dark"><i class="fas fa-map-marker-alt me-1"></i>{{ timeline.location }}</span>
+    </div>
+  </div>
+</div>
+
+<!-- Main -->
+<div class="container py-5">
+  <div class="row">
+    <!-- Events -->
+    <div class="col-lg-8">
+      <h2 class="mb-4"><i class="fas fa-timeline me-2"></i>Timeline of Events</h2>
+
+      {% if events|length == 0 %}
+        <div class="text-center py-5">
+          <i class="fas fa-calendar-times display-1 text-muted mb-3"></i>
+          <h3 class="text-muted">No events available</h3>
+          <p class="text-muted">Events for this timeline are being updated. Please check back later.</p>
+        </div>
+      {% else %}
+        <div class="timeline-container">
+          {% for event in events %}
+            <div id="event-{{ forloop.counter }}" class="timeline-event"
+                 data-year="{{ event.year }}" data-lat="{{ event.coordinates.lat }}" data-lng="{{ event.coordinates.lng }}">
+              <div class="timeline-marker">
+                <span class="timeline-icon">{{ event.avatar }}</span>
+                <div class="timeline-year">{{ event.year }}</div>
+              </div>
+              <div class="timeline-content">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <h5 class="card-title d-flex align-items-center">
+                      <span class="fs-4 me-3">{{ event.avatar }}</span>{{ event.title }}
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ event.date }}</h6>
+                    <p class="card-text">{{ event.description }}</p>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <p class="card-text">
+                          <small class="text-muted"><i class="fas fa-map-marker-alt me-1"></i>{{ event.location }}</small>
+                        </p>
+                      </div>
+                    </div>
+                    {% if event.significance %}
+                      <div class="alert alert-info"><i class="fas fa-lightbulb me-2"></i>
+                        <strong>Historical Significance:</strong> {{ event.significance }}
+                      </div>
+                    {% endif %}
+                    <button class="btn btn-outline-primary btn-sm show-on-map"
+                            data-lat="{{ event.coordinates.lat }}"
+                            data-lng="{{ event.coordinates.lng }}"
+                            data-title="{{ event.title }}">
+                      <i class="fas fa-map me-1"></i>Show on Map
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+      <!-- Map -->
+      <div class="card mb-4">
+        <div class="card-header"><h5 class="mb-0"><i class="fas fa-map me-2"></i>Historical Map</h5></div>
+        <div class="card-body p-0"><div id="historical-map" style="height:300px;width:100%;"></div></div>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+      </div>
+
+      <!-- Quick Nav -->
+      <div class="card mb-4">
+        <div class="card-header"><h5 class="mb-0"><i class="fas fa-navigation me-2"></i>Quick Navigation</h5></div>
+        <div class="card-body">
+          {% if events %}
+            <div class="timeline-nav">
+              {% for event in events %}
+                <a href="#event-{{ forloop.counter }}" class="timeline-nav-item d-block text-decoration-none p-2 rounded mb-2">
+                  <div class="d-flex align-items-center">
+                    <span class="me-2">{{ event.avatar }}</span>
+                    <div>
+                      <div class="fw-bold">{{ event.year }}</div>
+                      <small class="text-muted">{{ event.title|truncatechars:30 }}</small>
+                    </div>
+                  </div>
+                </a>
+              {% endfor %}
+            </div>
+          {% else %}
+            <p class="text-muted mb-0">No navigation items available</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Explore more -->
+      <div class="card">
+        <div class="card-header"><h5 class="mb-0"><i class="fas fa-clock me-2"></i>Explore More</h5></div>
+        <div class="card-body">
+          <p class="text-muted">Discover other historical periods and events:</p>
+          <a href="{% url 'timeline_home' %}" class="btn btn-outline-primary btn-sm">
+            <i class="fas fa-arrow-left me-1"></i>Back to All Timelines
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- Timeline JS -->
+  <script src="{% static 'js/timeline.js' %}"></script>
+
+  <!-- Timeline & Events Data (JSON) -->
+   {{ timeline|json_script:"timeline-data" }}
+   {{ events|json_script:"events-data" }}
+
+  <!-- Initialize Map + Events -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const timelineData = JSON.parse(document.getElementById("timeline-data").textContent);
+      const eventsData   = JSON.parse(document.getElementById("events-data").textContent);
+      initializeTimeline({ timeline: timelineData, events: eventsData });
+    });
+  </script>
+{% endblock %}

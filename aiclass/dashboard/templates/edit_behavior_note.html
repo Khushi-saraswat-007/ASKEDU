@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit Behavior Note</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-2xl mx-auto bg-white p-6 rounded-xl shadow-md">
+    <h2 class="text-2xl font-bold mb-4 text-green-600">✏️ Edit Note for {{ note.student.name }}</h2>
+    <form method="POST" class="space-y-4">
+      {% csrf_token %}
+      <textarea name="note" rows="5" class="w-full p-3 border rounded">{{ note.note }}</textarea>
+      <div class="flex justify-between">
+        <a href="{% url 'behavior_notes' %}" class="text-gray-600 hover:underline">← Back</a>
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">💾 Save Changes</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

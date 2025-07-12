@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AskEdu - Login</title>
+  <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.6.2/dist/dotlottie-wc.js" type="module"></script>
+  <style>
+    :root {
+      --primary: #1e40af;
+      --primary-light: #3b82f6;
+      --accent: #059669;
+      --accent-light: #10b981;
+      --warm: #f59e0b;
+      --warm-light: #fbbf24;
+      --nostalgia: #92400e;
+      --bg: #f8fafc;
+      --text: #1e293b;
+      --card-bg: #ffffff;
+      --shadow: rgba(30, 64, 175, 0.08);
+      --paper: #fffef7;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', 'SF Pro Display', -apple-system, sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      color: var(--text);
+      transition: all 0.3s ease;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Subtle notebook lines background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(90deg, transparent 79px, rgba(30, 64, 175, 0.03) 80px, rgba(30, 64, 175, 0.03) 81px, transparent 82px),
+        linear-gradient(rgba(30, 64, 175, 0.02) 1px, transparent 1px);
+      background-size: 82px 24px;
+      pointer-events: none;
+      z-index: -1;
+    }
+    /* Card Styles */
+    .card {
+      background: var(--paper);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 
+        0 4px 6px -1px var(--shadow),
+        0 2px 4px -1px rgba(0,0,0,0.06),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid rgba(30, 64, 175, 0.08);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      margin-bottom: 30px;
+    }
+
+    /* Vintage paper hole punches */
+    .card::before {
+      content: '';
+      position: absolute;
+      left: 20px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 15px,
+        var(--warm) 15px,
+        var(--warm) 17px,
+        transparent 17px,
+        transparent 32px
+      );
+      opacity: 0.3;
+    }
+
+    /* Modern accent corner */
+    .card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--accent-light), var(--primary-light));
+      border-radius: 0 16px 0 60px;
+      opacity: 0.1;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 
+        0 20px 25px -5px var(--shadow),
+        0 10px 10px -5px rgba(0,0,0,0.04),
+        inset 0 1px 0 rgba(255,255,255,0.2);
+      border-color: var(--primary-light);
+    }
+
+    .card:hover::after {
+      opacity: 0.2;
+      background: linear-gradient(135deg, var(--warm-light), var(--warm));
+    }
+
+    .wrapper {
+      width: 100vw;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+    }
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      height: 80vh;
+      display: flex;
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+    .left-panel, .right-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    .left-panel { 
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      padding: 2rem;
+      margin-down: 20px;
+    }
+    .right-panel { 
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    padding: 2rem;
+    margin-down: 20px;
+  }
+    .panel-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .left-panel h2, .right-panel h2 { font-size: 2.5rem; margin-bottom: 2rem; }
+    .button-group { display: flex; flex-direction: column; gap: 1rem; }
+    .btn {
+      padding: 12px 30px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid white;
+      color: white;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    .btn:hover {
+      background: white;
+      color: #2d5a27;
+      transform: translateY(-2px);
+    }
+    .overlay {
+      position: absolute;
+      top: 0;
+      width: 50%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+    .overlay.student-active { right: 0; opacity: 1; visibility: visible; }
+    .overlay.teacher-active { left: 0; opacity: 1; visibility: visible; }
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #e74c3c;
+      border: none;
+      font-size: 2rem;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .form-container {
+      width: 100%;
+      max-width: 320px;
+    }
+    .form-container h3 {
+      color: #2d5a27;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+    .form-group { margin-bottom: 1rem; }
+    .form-input {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #d8f3dc;
+      border-radius: 10px;
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.9);
+    }
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #2d5a27 0%, #40916c 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 1rem;
+      cursor: pointer;
+    }
+    .form-toggle-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: #666;
+    }
+    .form-toggle-link a {
+      color: #2d5a27;
+      text-decoration: none;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .form.hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="container card">
+      <div class="left-panel">
+        <div class="panel-icon"><dotlottie-wc
+          src="https://lottie.host/2a78257a-9cbc-453b-a856-7ebadf57e571/0zEiDtYEPU.lottie"
+          style="width: 300px;height: 300px"
+          speed="1"
+          autoplay
+          loop
+        ></dotlottie-wc></div>
+        <h2 class="card-header">Student Portal</h2>
+        <div class="button-group">
+          <button class="btn" onclick="showForm('student', 'signin')">Sign In</button>
+          <button class="btn" onclick="showForm('student', 'signup')">Sign Up</button>
+        </div>
+      </div>
+      <div class="right-panel">
+        <div class="panel-icon">
+          <dotlottie-wc
+            src="https://lottie.host/fa9b4f56-a8ff-4a5d-a3c5-47e45822b44a/cO82pJ2fWE.lottie"
+            style="width: 300px;height: 300px"
+            speed="1"
+            autoplay
+            loop
+          ></dotlottie-wc>
+        </div>
+        <h2 class="card-header">Teacher Portal</h2>
+        <div class="button-group">
+          <button class="btn" onclick="showForm('teacher', 'signin')">Sign In</button>
+          <button class="btn" onclick="showForm('teacher', 'signup')">Sign Up</button>
+        </div>
+      </div>
+
+      <div class="overlay" id="overlay">
+        <button class="close-btn" onclick="hideForm()">&times;</button>
+        <div class="form-container">
+          <h3 id="formTitle">Sign In</h3>
+          <form class="form" id="signinForm">
+            <div class="form-group"><input type="email" id="loginEmail" class="form-input" placeholder="Email Address" required></div>
+            <div class="form-group"><input type="password" id="loginPassword" class="form-input" placeholder="Password" required></div>
+            <button type="submit" class="submit-btn">Sign In</button>
+            <div class="form-toggle-link">Don't have an account? <a onclick="toggleFormType()">Sign Up</a></div>
+          </form>
+          <form class="form hidden" id="signupForm">
+            <div class="form-group"><input type="text" id="name" class="form-input" placeholder="Full Name" required></div>
+            <div class="form-group"><input type="email" id="signupEmail" class="form-input" placeholder="Email Address" required></div>
+            <div class="form-group"><input type="password" id="signupPassword" class="form-input" placeholder="Password" required></div>
+            <div class="form-group"><input type="password" id="signupConfirmPassword" class="form-input" placeholder="Confirm Password" required></div>
+            <button type="submit" class="submit-btn">Create Account</button>
+            <div class="form-toggle-link">Already have an account? <a onclick="toggleFormType()">Sign In</a></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase Logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      createUserWithEmailAndPassword,
+      signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      getDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBC1fBrv_5i4njn4m1hyxlm0NHiakXEDws",
+  authDomain: "aiassistant-9fd2a.firebaseapp.com",
+  projectId: "aiassistant-9fd2a",
+  storageBucket: "aiassistant-9fd2a.firebasestorage.app",
+  messagingSenderId: "471558413017",
+  appId: "1:471558413017:web:956fa093d79c0a8fd27cc8",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let currentPanel = '';
+    let currentFormType = '';
+
+    window.showForm = function(panel, formType) {
+      currentPanel = panel;
+      currentFormType = formType;
+      document.getElementById('formTitle').textContent = `${panel === 'student' ? 'Student' : 'Teacher'} ${formType === 'signin' ? 'Sign In' : 'Sign Up'}`;
+      document.getElementById('signinForm').classList.toggle('hidden', formType !== 'signin');
+      document.getElementById('signupForm').classList.toggle('hidden', formType !== 'signup');
+      document.getElementById('overlay').className = `overlay ${panel}-active`;
+    }
+
+    window.hideForm = function() {
+      document.getElementById('overlay').className = 'overlay';
+      currentPanel = '';
+      currentFormType = '';
+    }
+
+    window.toggleFormType = function() {
+      const newFormType = currentFormType === 'signin' ? 'signup' : 'signin';
+      showForm(currentPanel, newFormType);
+    }
+
+    // Sign In
+    document.getElementById('signinForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        const uid = user.uid;
+
+        const docSnap = await getDoc(doc(db, "users", uid));
+
+        if (docSnap.exists()) {
+          const role = docSnap.data().role;
+
+          if (role !== currentPanel) {
+            alert(`You are registered as a ${role}. Please use the correct login form.`);
+            await signOut(auth);
+            return;
+          }
+
+          // ✅ Log into Django session
+          const response = await fetch("/firebase-login/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: user.email, name: docSnap.data().name })
+          });
+
+          if (response.ok) {
+            window.location.href = role === 'student' ? "/studentdashboard" : "/dashboard";
+          } else {
+            alert("Failed to sync login with server.");
+          }
+        } else {
+          alert("No role found for this user.");
+        }
+
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+
+    // Sign Up
+    document.getElementById('signupForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+      if (password !== confirmPassword) return alert("Passwords do not match.");
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const uid = userCredential.user.uid;
+        await setDoc(doc(db, "users", uid), {
+          name,
+          email,
+          role: currentPanel
+        });
+        alert("Account created! Please log in.");
+        hideForm();
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+  </script>
+</body>
+</html>
