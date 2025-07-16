@@ -188,7 +188,7 @@ All core functionalities passed black-box and component tests.
 
 ## 🏁 Conclusion
 
-AskEDU was built to reshape how students learn and teachers teach. It’s more than a hackathon project – it’s a scalable, AI-powered education companion ready for the classroom of tomorrow.
+AskEDU was built to reshape how students learn and teachers teach. It’s more than a project – it’s a scalable, AI-powered education companion ready for the classroom of tomorrow.
 
 ## 🔴 Note:
 
